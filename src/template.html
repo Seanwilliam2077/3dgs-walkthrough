@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3DGS 漫游指南</title>
+<meta name="description" content="用直觉、三个可以动手的小实验和一张方向地图，讲清 3D Gaussian Splatting 的原理，并梳理 2020–2026 年重建速度、压缩、画质、几何与混合渲染、编辑、重光照六个方向的关键工作。">
+<meta property="og:title" content="3DGS 漫游指南">
+<meta property="og:description" content="3D Gaussian Splatting 通俗导读：原理小实验 + 六大方向 @@TOTAL@@ 项关键工作。">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='12' cy='14' rx='9' ry='6' transform='rotate(-25 12 14)' fill='%230a686d' fill-opacity='.85'/%3E%3Cellipse cx='19' cy='17' rx='8' ry='5' transform='rotate(35 19 17)' fill='%23e0663a' fill-opacity='.8'/%3E%3Cellipse cx='16' cy='22' rx='7' ry='4' fill='%23eda100' fill-opacity='.75'/%3E%3C/svg%3E">
+<script>
+  try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+@@STYLE@@
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="3DGS 漫游指南，回到顶部">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="12" cy="14" rx="9" ry="6" transform="rotate(-25 12 14)" fill="var(--accent)" fill-opacity=".85"/><ellipse cx="19" cy="17" rx="8" ry="5" transform="rotate(35 19 17)" fill="var(--cat-2)" fill-opacity=".8"/><ellipse cx="16" cy="22" rx="7" ry="4" fill="var(--cat-4)" fill-opacity=".75"/></svg>
+      <span>3DGS 漫游指南</span>
+    </a>
+    <nav class="toc" aria-label="目录">
+      <a href="#intuition">直觉</a>
+      <a href="#pipeline">原理</a>
+      <a href="#timeline">时间线</a>
+      <a href="#map">方向地图</a>
+      <a href="#directions">六大方向</a>
+      <a href="#ecosystem">工程生态</a>
+      <a href="#caveats">读数字</a>
+      <a href="#glossary">术语</a>
+      <a href="#errata">参考与勘误</a>
+    </nav>
+    <button id="theme-toggle" class="theme" type="button">
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+      <span class="label">跟随系统</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">3D Gaussian Splatting · 通俗导读 · 2020–2026</p>
+    <h1><span class="phrase">用几百万颗半透明的「彩色果冻豆」，</span><span class="phrase">拼出一个能实时漫游的三维世界</span></h1>
+    <p class="lede">3D 高斯泼溅（3DGS）把真实场景表示成大量半透明的三维高斯，从照片里训练出来，用普通显卡就能实时浏览。这一页先用直觉和三个能动手的小实验讲清原理，再按六个方向梳理 2023–2026 年的关键进展。</p>
+    <figure class="stage hero-stage">
+      <canvas id="hero-canvas" width="960" height="320" role="img" aria-label="由二维高斯实时拟合出的 3DGS 字样"></canvas>
+      <figcaption class="hero-log">
+        <span>step <b id="hero-step">0</b></span>
+        <span>高斯 <b id="hero-n">0</b> 个</span>
+        <span>PSNR <b id="hero-psnr">–</b> dB</span>
+        <span class="spacer"></span>
+        <button class="stage-btn" id="hero-ellipses" type="button" aria-pressed="false">显示椭圆</button>
+        <button class="stage-btn" id="hero-restart" type="button">重新训练</button>
+      </figcaption>
+    </figure>
+    <p class="hero-note">上面的「3DGS」不是图片：它由上千个二维高斯组成，此刻正在你的浏览器里用梯度下降实时训练。打开「显示椭圆」可以看到每一颗高斯。</p>
+    <ul class="facts">
+      <li><b>2023 年 8 月</b><span>原论文发表于 SIGGRAPH 2023（ACM TOG 42(4)）</span></li>
+      <li><b>1080p 实时</b><span>原文：真实场景新视角合成 ≥ 30 fps</span></li>
+      <li><b>@@TOTAL@@ 项工作</b><span>六大方向加扩展应用，其中 @@STARS@@ 项标为里程碑</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="intuition">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">第一部分 · 直觉</p>
+      <h2>3DGS 到底是什么</h2>
+    </div>
+    <div class="two">
+      <div class="prose">
+        <p>想象把一个房间「拆」成几百万颗彩色果冻豆。每颗都是半透明的：有的圆，有的扁，有的细长，朝向各不相同，边缘越往外越淡。它们悬浮在空中，密密麻麻地叠在一起。从任何角度看过去，把视线上的果冻豆从近到远叠起来，就得到了那个角度的照片。</p>
+        <p>3DGS 做的就是这件事：先随手撒一把果冻豆，再对照几十到几百张实拍照片，不断调整每颗豆子的位置、形状、朝向、颜色和透明度，直到从每个拍摄角度看过去都和照片一致。哪里细节不够，就多放几颗；哪里的豆子没用，就拿掉。</p>
+        <p>这里的「果冻豆」在数学上叫<strong>三维高斯</strong>：一个中心、一个描述胖瘦朝向的协方差矩阵，再加上颜色和不透明度。NeRF 把整个场景藏在神经网络的权重里，每个像素都要沿光线查询网络上百次；3DGS 的高斯却是看得见、数得清的显式数据，可以直接交给 GPU 光栅化，所以渲染快了几个数量级。</p>
+      </div>
+      <aside class="panel" aria-labelledby="cells-title">
+        <h3 id="cells-title">一颗高斯 = 59 个数</h3>
+        <p class="small muted">按原版 3DGS 的存法，每一格代表一个 32 位浮点数。</p>
+        <div class="cells" id="cells" aria-hidden="true">@@CELLS@@</div>
+        <ul class="cell-legend">
+          <li><i style="background:var(--cat-1)"></i><span><b>3</b> 位置 x y z</span></li>
+          <li><i style="background:var(--cat-2)"></i><span><b>3</b> 缩放（三个半轴）</span></li>
+          <li><i style="background:var(--cat-3)"></i><span><b>4</b> 旋转（四元数）</span></li>
+          <li><i style="background:var(--cat-4)"></i><span><b>1</b> 不透明度</span></li>
+          <li><i style="background:var(--cat-5)"></i><span><b>48</b> 颜色（3 阶球谐）</span></li>
+        </ul>
+        <p class="small" style="margin-top:12px">颜色占了 48 个：其中 3 个是基础色，另外 45 个负责「换个方向看，颜色会变」，比如高光。每颗约 236 字节，几百万颗就是几百 MB，所以<a href="#dir-compress">压缩</a>第一刀往往砍在球谐上。</p>
+      </aside>
+    </div>
+
+    <h3 style="margin:48px 0 14px">和老办法比一比</h3>
+    <div class="table-scroll">
+      <table class="compare">
+        <thead><tr><th scope="col"></th><th scope="col">摄影测量（SfM + MVS）</th><th scope="col">NeRF</th><th scope="col">3DGS</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">场景怎么存</th><td>三角网格 + 纹理贴图</td><td>神经网络权重（隐式）</td><td>数百万个 3D 高斯（显式）</td></tr>
+          <tr><th scope="row">怎么出图</th><td>光栅化，引擎原生支持</td><td>每条光线采样上百个点，逐点查询网络再积分</td><td>把高斯投影成椭圆，排序后逐像素 α 混合</td></tr>
+          <tr><th scope="row">渲染速度</th><td>实时</td><td>慢：Mip-NeRF 360 约 0.06 fps</td><td>快：原文 134 fps（同一数据集，A6000）</td></tr>
+          <tr><th scope="row">擅长</th><td>结构清晰、纹理丰富的表面</td><td>视角相关的外观、细节</td><td>画质与速度兼顾，毛发、植被等「软」细节</td></tr>
+          <tr><th scope="row">短板</th><td>反光、透明、树叶毛发等细碎结构</td><td>训练和渲染都慢，难以编辑</td><td>体积大、没有表面，重光照和物理不方便</td></tr>
+          <tr><th scope="row">能不能改</th><td>成熟，DCC 工具齐全</td><td>难，参数都藏在网络里</td><td>中等：能框选删除，但缺少语义</td></tr>
+          <tr><th scope="row">进游戏引擎</th><td>直接可用</td><td>基本不行</td><td>需要插件或专用渲染器；glTF 扩展已获批准</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin:48px 0 6px">原论文交出的成绩</h3>
+    <p class="muted small" style="margin-bottom:14px">Kerbl 等，SIGGRAPH 2023，Table 1 中 Mip-NeRF 360 数据集一栏（9 个场景的平均值）。</p>
+    <div class="table-scroll">
+      <table class="results">
+        <thead><tr><th scope="col">方法</th><th scope="col" class="num">PSNR ↑</th><th scope="col" class="num">SSIM ↑</th><th scope="col" class="num">LPIPS ↓</th><th scope="col" class="num">训练时间</th><th scope="col" class="num">渲染 FPS</th><th scope="col" class="num">模型大小</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Plenoxels</th><td class="num">23.08</td><td class="num">0.626</td><td class="num">0.463</td><td class="num">25 min 49 s</td><td class="num">6.79</td><td class="num">2.1 GB</td></tr>
+          <tr><th scope="row">Instant-NGP（Big）</th><td class="num">25.59</td><td class="num">0.699</td><td class="num">0.331</td><td class="num">7 min 30 s</td><td class="num">9.43</td><td class="num">48 MB</td></tr>
+          <tr><th scope="row">Mip-NeRF 360</th><td class="num">27.69†</td><td class="num">0.792†</td><td class="num">0.237†</td><td class="num">48 h*</td><td class="num">0.06</td><td class="num">8.6 MB</td></tr>
+          <tr><th scope="row">3DGS（7k 步）</th><td class="num">25.60</td><td class="num">0.770</td><td class="num">0.279</td><td class="num">6 min 25 s</td><td class="num">160</td><td class="num">523 MB</td></tr>
+          <tr class="hl"><th scope="row">3DGS（30k 步）</th><td class="num">27.21</td><td class="num">0.815</td><td class="num">0.214</td><td class="num">41 min 33 s</td><td class="num">134</td><td class="num">734 MB</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="footnote">除 Mip-NeRF 360 外均在一张 RTX A6000 上测得。† 数值取自 Mip-NeRF 360 原文；3DGS 作者自己重跑得到的 PSNR 为 27.58。* 原文在 4 卡 A100 节点上训练 12 小时，折合单卡约 48 小时。训练时间都不含 COLMAP 求位姿。</p>
+    <p class="takeaway">一句话：训练时间约为 Mip-NeRF 360 的 1/70，帧率高出两千多倍，画质接近；代价是模型大了约 85 倍。后来的六个研究方向，基本都是在补这笔账。</p>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">第二部分 · 原理</p>
+      <h2>它是怎么工作的：四步</h2>
+      <p class="lede">从照片到可实时浏览的场景，要经过初始化、投影、排序混合、优化四步。后三步各配了一个小实验，全部在你的浏览器里实时计算。</p>
+    </div>
+
+    <div class="steps">
+      <article class="step" id="step-1">
+        <div class="step-head">
+          <span class="step-no">1</span>
+          <div><h3>从照片到初始点云</h3><p>SfM 求相机位姿，每个稀疏点变成一颗小高斯</p></div>
+        </div>
+        <div class="prose">
+          <p>先用 COLMAP 这类运动恢复结构（SfM）工具，从几十到几百张照片里算出每张照片的相机位置和朝向，顺带得到一团稀疏的三维点。3DGS 在每个点上放一颗高斯：颜色取点的颜色，初始大小取它与最近三个邻居的平均距离，形状先是正圆球。</p>
+          <p>这一步一旦失败（弱纹理、反光、运动模糊、照片太少），后面的一切都无从谈起。这正是<a href="#dir-speed">方向一</a>里「用前馈模型替代 SfM」想解决的问题。</p>
+        </div>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="step-head">
+          <span class="step-no">2</span>
+          <div><h3>把 3D 高斯「拍扁」到屏幕上</h3><p>三维椭球投影成二维椭圆，形状由协方差矩阵决定</p></div>
+        </div>
+        <div class="prose">
+          <p>每颗高斯是一个三维的软椭球，形状由协方差矩阵 Σ 描述。直接优化 Σ 很容易让它变得不合法，所以 3DGS 把它拆成旋转 R 和缩放 S。渲染时把它投影到相机平面，就得到一个二维椭圆；其中 W 是相机的视角变换，J 是透视投影在该点附近的线性近似（雅可比矩阵）。同一颗「豆子」，从不同方向看，投影出来的椭圆胖瘦和朝向都不一样。</p>
+        </div>
+        <p class="formula" style="margin-top:12px"><span>Σ = R S Sᵀ Rᵀ</span><span>Σ′ = J W Σ Wᵀ Jᵀ</span><span>G(x) = exp(−½ (x−μ′)ᵀ Σ′⁻¹ (x−μ′))</span></p>
+        <div class="demo" id="demo-single">
+          <div>
+            <div class="stage"><canvas id="single-canvas" width="640" height="440" role="img" aria-label="一个三维高斯投影到屏幕上的样子"></canvas></div>
+            <p class="hint" style="margin-top:8px">三条细线由内到外是 1σ、2σ、3σ 等值线，3σ 以外直接忽略。左下角的坐标轴表示当前视角。</p>
+          </div>
+          <div class="controls">
+            <span class="demo-tag">动手试试 · 单个高斯</span>
+            <div class="ctl"><label for="g-sx">长轴</label><input type="range" id="g-sx" min="6" max="90" value="70"><output id="g-sx-o" for="g-sx"></output></div>
+            <div class="ctl"><label for="g-sy">中轴</label><input type="range" id="g-sy" min="6" max="90" value="30"><output id="g-sy-o" for="g-sy"></output></div>
+            <div class="ctl"><label for="g-sz">短轴</label><input type="range" id="g-sz" min="6" max="90" value="12"><output id="g-sz-o" for="g-sz"></output></div>
+            <div class="ctl"><label for="g-yaw">水平视角</label><input type="range" id="g-yaw" min="-180" max="180" value="30"><output id="g-yaw-o" for="g-yaw"></output></div>
+            <div class="ctl"><label for="g-pitch">俯仰视角</label><input type="range" id="g-pitch" min="-90" max="90" value="20"><output id="g-pitch-o" for="g-pitch"></output></div>
+            <div class="ctl"><label for="g-op">不透明度</label><input type="range" id="g-op" min="5" max="100" value="90"><output id="g-op-o" for="g-op"></output></div>
+            <div class="ctl"><label for="g-hue">颜色</label><input type="range" id="g-hue" min="0" max="360" value="18"><output id="g-hue-o" for="g-hue"></output></div>
+            <div class="readout" id="single-readout" aria-live="polite"></div>
+            <p class="hint">这里用正交投影（J 取单位矩阵的前两行），真实的 3DGS 用透视投影。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="step-head">
+          <span class="step-no">3</span>
+          <div><h3>排序，再从近到远叠加</h3><p>分块排序后逐像素做 α 混合，顺序决定结果</p></div>
+        </div>
+        <div class="prose">
+          <p>屏幕被切成 16×16 像素的图块（tile）。每颗高斯按它覆盖的图块复制若干份，连同深度一起在 GPU 上做一次基数排序。随后每个像素从近到远累加颜色：Tᵢ 是光线穿过前面所有高斯后剩下的透光率，αᵢ 是这颗高斯在该像素处的不透明度。α 小于 1/255 的直接跳过；累计不透明度快要超过 0.9999 时提前停止。</p>
+          <p>排序依据的是每颗高斯中心的深度，这是一种近似，所以转动视角时偶尔会「跳色」（popping）。<a href="#dir-quality">方向三</a>里的 StopThePop、EVER 专门处理这个问题。</p>
+        </div>
+        <p class="formula" style="margin-top:12px"><span>C = Σᵢ cᵢ αᵢ Tᵢ + T<sub>末</sub>·背景</span><span>Tᵢ = Π<sub>j&lt;i</sub> (1 − αⱼ)</span><span>αᵢ = min(0.99, oᵢ · Gᵢ(x))</span></p>
+        <div class="demo" id="demo-blend">
+          <div>
+            <div class="stage"><canvas id="blend-canvas" width="640" height="440" role="img" aria-label="三个重叠的高斯按当前顺序混合的结果"></canvas></div>
+            <p class="hint" style="margin-top:8px">在画面上点击或拖动，移动白色十字探针。</p>
+          </div>
+          <div class="controls">
+            <span class="demo-tag">动手试试 · 前后顺序</span>
+            <ol class="order-list" id="blend-order" aria-label="从前到后的顺序"></ol>
+            <div class="ctl"><label for="b-op">不透明度</label><input type="range" id="b-op" min="10" max="100" value="80"><output id="b-op-o" for="b-op"></output></div>
+            <div class="btnrow"><button class="btn" id="b-reverse" type="button">前后颠倒</button><button class="btn" id="b-shuffle" type="button">随机打乱</button></div>
+            <div class="table-scroll"><table class="probe-table" id="blend-table" aria-live="polite"></table></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="step-head">
+          <span class="step-no">4</span>
+          <div><h3>对照照片，反复修正：可微优化与自适应增删</h3><p>梯度下降调参数，同时按规则克隆、分裂、剪除高斯</p></div>
+        </div>
+        <div class="prose">
+          <p>把渲染结果和真实照片相比，损失为 L = (1 − λ)·L1 + λ·D-SSIM，其中 λ = 0.2。整个渲染过程可微，梯度能一路传回每颗高斯的位置、形状、颜色和不透明度，再用 Adam 更新。</p>
+          <p>光调参数还不够，高斯的数量也得变。训练中每隔 100 步检查一次：位置梯度的平均值超过 0.0002，说明「这里还没拟合好」。这时小高斯复制一份（克隆），大高斯一分为二、尺寸缩小到 1/1.6（分裂）；几乎透明的直接删掉（剪枝）。每 3000 步还会把不透明度统一压低，逼出多余的高斯。默认一共训练 3 万步。</p>
+        </div>
+        <p class="formula" style="margin-top:12px"><span>梯度大且高斯小 → 克隆</span><span>梯度大且高斯大 → 分裂（缩放 ÷ 1.6）</span><span>几乎透明 → 剪枝</span></p>
+        <div id="fitter" style="margin-top:22px">
+          <span class="demo-tag">动手试试 · 在浏览器里训练</span>
+          <p class="small muted" style="max-width:56em">左边是目标图。中间和右边从同样的 120 个高斯出发：一个开启自适应增删（数量上限可调），一个数量固定。这里拟合的是 2D 图像，省掉了投影一步；前向渲染、解析梯度、Adam 和增删规则与 3DGS 相同。为了几秒内就看到效果，损失只用 L2，检查间隔、阈值做了缩放，也没有做不透明度重置。</p>
+          <div class="fit-bar">
+            <div class="seg" role="group" aria-label="目标图">
+              <button type="button" data-target="landscape" aria-pressed="true">湖景</button>
+              <button type="button" data-target="beans" aria-pressed="false">果冻豆</button>
+              <button type="button" data-target="text" aria-pressed="false">文字</button>
+            </div>
+            <label class="btn file-label">上传图片<input type="file" id="fit-file" accept="image/*"></label>
+            <button class="btn primary" id="fit-run" type="button">开始训练</button>
+            <button class="btn" id="fit-reset" type="button">重新开始</button>
+            <div class="ctl"><label for="fit-budget">高斯上限</label><input type="range" id="fit-budget" min="300" max="2000" step="100" value="1000"><output id="fit-budget-o" for="fit-budget">1000</output></div>
+            <div class="seg" role="group" aria-label="显示方式">
+              <button type="button" data-view="render" aria-pressed="true">渲染</button>
+              <button type="button" data-view="ellipse" aria-pressed="false">椭圆</button>
+              <button type="button" data-view="error" aria-pressed="false">误差</button>
+            </div>
+          </div>
+          <div class="fit-grid">
+            <div class="fit-cell">
+              <div class="stage"><canvas id="fit-target" width="480" height="360" role="img" aria-label="目标图"></canvas></div>
+              <div class="fit-cap"><b>目标图</b><span class="mono">120×90 像素</span></div>
+            </div>
+            <div class="fit-cell">
+              <div class="stage"><canvas id="fit-a" width="480" height="360" role="img" aria-label="开启自适应增删的拟合结果"></canvas></div>
+              <div class="fit-cap"><span><i class="key s1"></i><b>开启增删</b></span><span class="mono" id="fit-a-stat">–</span></div>
+            </div>
+            <div class="fit-cell">
+              <div class="stage"><canvas id="fit-b" width="480" height="360" role="img" aria-label="关闭自适应增删的拟合结果"></canvas></div>
+              <div class="fit-cap"><span><i class="key s2"></i><b>关闭增删</b></span><span class="mono" id="fit-b-stat">–</span></div>
+            </div>
+          </div>
+          <p class="eventlog" id="fit-log" aria-live="polite">点「开始训练」，或把这一段滚动到屏幕中央，训练会自动开始。</p>
+          <div class="chart-box" id="fit-chart-box">
+            <div class="chart-top">
+              <span class="chart-title">PSNR（dB）随训练步数的变化，越高越好</span>
+              <div class="legend"><span><i class="key s1"></i>开启增删</span><span><i class="key s2"></i>关闭增删</span></div>
+            </div>
+            <div class="chart" id="fit-chart"></div>
+            <div class="tip" id="fit-tip" hidden></div>
+            <p class="hint" style="margin-top:4px">蓝线在前 1500 步的锯齿，是每次克隆、分裂或剪枝之后的短暂回落；1500 步后停止增删，只微调参数。</p>
+            <details class="data" id="fit-data"><summary>查看数据表</summary><div class="table-scroll" style="margin-top:8px"><table id="fit-table"></table></div></details>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">第三部分 · 脉络</p>
+      <h2>2020–2026 时间线</h2>
+      <p class="lede">日期取论文第一版上 arXiv 的月份，会议是正式发表处。★ 为里程碑，右侧标签可跳到对应方向。</p>
+    </div>
+    <div class="tl">
+@@TIMELINE@@
+    </div>
+  </div>
+</section>
+
+<section id="map">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">第四部分 · 全景</p>
+      <h2>方向地图</h2>
+      <p class="lede">3DGS 的研究可以挂在一条「从拍摄到上屏」的主流程上，另有两条贯穿全程的支撑主线；编辑、重光照和动态场景是在此基础上的扩展。点击标签跳到对应方向。</p>
+    </div>
+@@MAP@@
+  </div>
+</section>
+
+<section id="directions">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">第五部分 · 详解</p>
+      <h2>六大方向与代表工作</h2>
+      <p class="lede">每个方向先说清要解决的问题，再给出主流思路、工程建议和代表工作。★ 表示里程碑；「作者自评」「厂商声明」等标签提示数字的来源。</p>
+    </div>
+    <div class="filters" role="search">
+      <div class="filter-row">
+        <label class="search">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="搜索名称、会议或关键词，如 TOG、前馈、网格" aria-label="搜索工作" autocomplete="off">
+        </label>
+        <label class="switch"><input type="checkbox" id="only-star"> 只看里程碑 ★</label>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+      <div class="dir-chips" role="group" aria-label="按方向筛选">
+@@CHIPS@@
+      </div>
+    </div>
+@@DIRECTIONS@@
+    <p class="empty" id="empty" hidden>没有匹配的工作。换个关键词，或关掉「只看里程碑」。</p>
+  </div>
+</section>
+
+<section id="ecosystem">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">第六部分 · 落地</p>
+      <h2>工程生态与许可</h2>
+      <p class="lede">「值得精读」和「值得当底座」要分开判断。下表的许可信息核对于 @@UPDATED@@，以各仓库当前的 LICENSE 为准。</p>
+    </div>
+    <div class="table-scroll">
+      <table class="eco">
+        <thead><tr><th scope="col">用途</th><th scope="col">项目</th><th scope="col">做什么</th><th scope="col">许可</th></tr></thead>
+        <tbody>
+@@ECOSYSTEM@@
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>商用前先查许可。</strong>原版 3DGS 的代码是 Inria 的非商用许可，而很多下游仓库直接把 Inria 系的光栅器（diff-gaussian-rasterization 及其变体）当作子模块，许可会跟着带过去。想做产品，底座优先选 gsplat、3DGRUT 这类 Apache-2.0 / MIT 的实现。
+    </div>
+  </div>
+</section>
+
+<section id="caveats">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">第七部分 · 口径</p>
+      <h2>读数字时要当心</h2>
+      <p class="lede">论文之间的数字经常不能直接比较。看到「快 10 倍」「小 100 倍」时，先问下面几个问题。</p>
+    </div>
+    <div class="caveats">
+@@CAVEATS@@
+    </div>
+  </div>
+</section>
+
+<section id="glossary">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">附录</p>
+      <h2>术语表</h2>
+    </div>
+    <dl class="glossary">
+@@GLOSSARY@@
+    </dl>
+  </div>
+</section>
+
+<section id="errata">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">附录</p>
+      <h2>参考与勘误</h2>
+      <p class="lede">本页以一份「3DGS 研究进展综述（截至 2026 年中）」为骨架，逐条核对后补充而成。区分三类信息：可复现的论文结果、作者或厂商的自述、第三方报道，后两类在文中都有标注。</p>
+    </div>
+    <h3 style="margin-bottom:10px">对原综述的更正与更新</h3>
+    <ul class="errata">
+@@ERRATA@@
+    </ul>
+    <h3 style="margin:36px 0 10px">怎么核对的</h3>
+    <ol class="refs">
+      <li>arXiv 编号、标题和首版日期：逐条对照 arxiv.org 的论文页面。</li>
+      <li>会议信息：对照 CVF Open Access（CVPR 2024/2025/2026、ICCV 2025）、ECVA（ECCV 2024）的收录列表，以及论文页的 Comments 字段和官方代码仓库的说明。</li>
+      <li>许可证与项目状态：对照 GitHub 仓库的 LICENSE、README，以及 Khronos 官方 glTF 仓库。</li>
+      <li>原论文数字：3DGS 论文 Table 1 与正文（<a href="https://arxiv.org/abs/2308.04079" target="_blank" rel="noopener">arXiv:2308.04079</a>，<a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/" target="_blank" rel="noopener">项目页</a>）。</li>
+    </ol>
+    <p class="footnote">信息核对截至 @@UPDATED@@。领域变化很快，引用前请以论文和仓库的最新版本为准。</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>3DGS 漫游指南 · 更新于 @@UPDATED@@</span>
+    <span>单个 HTML 文件，不加载任何外部资源 · 内容与生成脚本见 <a href="https://github.com/Seanwilliam2077/3dgs-walkthrough" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+
+<script>
+@@SCRIPT@@
+</script>
+</body>
+</html>
