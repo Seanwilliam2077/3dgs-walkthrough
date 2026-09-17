@@ -1,0 +1,895 @@
+{
+ "2303.12789": {
+  "src": "https://arxiv.org/html/2303.12789v2/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2: Overview : Our method gradually updates a reconstructed NeRF scene by iteratively updating the dataset images while training the NeRF: (1) an image is"
+ },
+ "2308.09713": {
+  "src": "https://arxiv.org/html/2308.09713v1/figures/pt_fig.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Gaussian Centers. Point-cloud of colored centers in contiguous timesteps, showing how they model scene geometry and move over time. [Videos]"
+ },
+ "2309.13101": {
+  "src": "https://arxiv.org/html/2309.13101v2/pipeline_gxy.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview of our pipeline. The optimization process begins with Structure from Motion (SfM) points derived from COLMAP or generated randomly, which se"
+ },
+ "2309.16653": {
+  "src": "https://arxiv.org/html/2309.16653v2/framework.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2: DreamGaussian Framework . 3D Gaussians are used for efficient initialization of geometry and appearance using single-step SDS loss. We then extract a "
+ },
+ "2310.08528": {
+  "src": "https://arxiv.org/html/2310.08528v3/splatting_volume.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Illustration of different dynamic scene rendering methods. (a) Points are sampled in the cast ray during volume rendering. The point deformation fiel"
+ },
+ "2310.10642": {
+  "src": "https://arxiv.org/html/2310.10642v3/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Schematic illustration of the proposed 4DGS. This diagram illustrates why our 4D primitive is naturally suitable for representing dynamic scenes. With"
+ },
+ "2311.12198": {
+  "src": "https://arxiv.org/html/2311.12198v3/overview_v3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Method Overview. PhysGaussian is a unified simulation-rendering pipeline that incorporates 3D Gaussian splatting representation and continuum mechani"
+ },
+ "2311.12775": {
+  "src": "https://anttwo.github.io/sugar/results/full_teaser.png",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2311.13681": {
+  "src": "https://arxiv.org/html/2311.13681v2/fig_arch.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : The detailed architecture of our proposed compact 3D Gaussian."
+ },
+ "2311.14521": {
+  "src": "https://arxiv.org/html/2311.14521v4/F1.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Results of GaussianEditor . GaussianEditor offers swift, controllable, and versatile 3D editing. A single editing session only takes 5-10 minutes. Pl"
+ },
+ "2311.16037": {
+  "src": "https://arxiv.org/html/2311.16037v2/methodv9.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Our framework, named GaussianEditor, consists of three key steps. First, a module ℳ D ​ e ​ s ​ c {\\mathcal{M}}_{Desc} is used to get the description"
+ },
+ "2311.16043": {
+  "src": "https://arxiv.org/html/2311.16043v2/points.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "(a) Point Cloud"
+ },
+ "2311.16096": {
+  "src": "https://arxiv.org/html/2311.16096v4/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1: Lifelike relightable and animatable avatars with highly dynamic , realistic and generalized details created by our method. We show synthesized results a"
+ },
+ "2311.16099": {
+  "src": "https://arxiv.org/html/2311.16099v1/figures/MAIN.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview : Left-top: GART represents the shape and appearance of articulated subjects in canonical space with Gaussian Mixtures (Sec. 3.2 ). Middle: "
+ },
+ "2311.16473": {
+  "src": "https://arxiv.org/html/2311.16473v3/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Given multi-view captured images of a complex scene, we propose GS-IR (3D G aussian S platting for I nverse R endering), which utilizes 3D Gaussian a"
+ },
+ "2311.16493": {
+  "src": "https://niujinshuchong.github.io/mip-splatting/resources/teaser.png",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2311.17089": {
+  "src": "https://arxiv.org/html/2311.17089v2/images/archi_v4.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overall pipeline of our algorithm. At the early stage of training (left), small Gaussians below certain size threshold in each voxel are aggregated, "
+ },
+ "2311.17245": {
+  "src": "https://arxiv.org/html/2311.17245v6/teaser1.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Compressibility and Speed : LightGaussian compacts 3D Gaussians, reducing storage from 782MB to 45MB and boosting FPS from 144 to 237, while maintain"
+ },
+ "2311.17977": {
+  "src": "https://arxiv.org/html/2311.17977v1/pipeline_v5.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : GaussianShader initiates with the neural 3D Gaussian spheres that integrate both conventional attributes and the newly introduced shading attributes "
+ },
+ "2311.18159": {
+  "src": "https://arxiv.org/html/2311.18159v3/figures/fig1_plot.png",
+  "from": "arxiv-html",
+  "n": 2,
+  "caption": "Figure 1 : Inference speed vs. memory comparison. All methods except INGP achieve comparable PSNR that are reported in Table 1 . CompGS, our compressed version "
+ },
+ "2312.00109": {
+  "src": "https://arxiv.org/html/2312.00109v1/scaffold-pipeline-1118-fix.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview of Scaffold -GS . (a) We start by forming a sparse voxel grid from SfM-derived points. An anchor associated with a learnable scale is placed"
+ },
+ "2312.00451": {
+  "src": "https://arxiv.org/html/2312.00451v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Real-Time Few-shot Novel View Synthesis. We present a point-based framework that is initialized from extremely sparse SfM points, achieving a signifi"
+ },
+ "2312.00732": {
+  "src": "https://arxiv.org/html/2312.00732v2/method_v21.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : The method pipeline of our Gaussian Grouping contains three main steps: (a) We first prepare the input by deploying SAM to automatically generate mas"
+ },
+ "2312.00860": {
+  "src": "https://arxiv.org/html/2312.00860v3/saga-teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: SAGA performs promptable multi-granularity segmentation within milliseconds . Prompts are marked by points."
+ },
+ "2312.02069": {
+  "src": "https://arxiv.org/html/2312.02069v2/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview. Our method binds 3D Gaussian splats to a FLAME [ 22 ] mesh locally. We take the tracked mesh for each frame and transform the splats from l"
+ },
+ "2312.02126": {
+  "src": "https://arxiv.org/html/2312.02126v3/splash_fig.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : SplaTAM enables precise camera tracking and high-fidelity reconstruction for dense simultaneous localization and mapping (SLAM) in challenging real-w"
+ },
+ "2312.02973": {
+  "src": "https://arxiv.org/html/2312.02973v1/figures/Overview.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : GauHuman Framework. We first initialize 3D Gaussians’ positions 𝒑 c \\bm{p}^{c} from SMPL vertex points. Then we incorporate pose refinement module ML"
+ },
+ "2312.03029": {
+  "src": "https://arxiv.org/html/2312.03029v3/teaserp.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1: HHAvatar achieves ultra high-fidelity image synthesis with controllable expressions at 2K resolution. The above shows different identities animated by t"
+ },
+ "2312.03203": {
+  "src": "https://arxiv.org/html/2312.03203v3/Pipline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : An overview of our method. We adopt the same 3D Gaussian initialization from sparse SfM point clouds as utilized in 3DGS, with the addition of an ess"
+ },
+ "2312.03704": {
+  "src": "https://arxiv.org/html/2312.03704v2/overview.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview. Given an expression latent code 𝐳 \\mathbf{z} , gaze 𝐞 { l , r } \\mathbf{e}_{\\{l,r\\}} , and view direction 𝝎 o \\boldsymbol{\\omega}_{o} , our"
+ },
+ "2312.04564": {
+  "src": "https://arxiv.org/html/2312.04564v3/plots/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : We propose EAGLES, a technique to significantly reduce the memory footprint of 3D-Gaussian splatting by an order of magnitude while offering further "
+ },
+ "2312.06741": {
+  "src": "https://arxiv.org/html/2312.06741v2/overview.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : SLAM System Overview: Our SLAM system uses 3D Gaussians as the only representation, unifying all components of SLAM, including tracking, mapping, key"
+ },
+ "2312.07504": {
+  "src": "https://arxiv.org/html/2312.07504v2/method_v3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview of proposed CF-3DGS . Our method takes a sequence of images as input to learn a set of 3D Gaussian that presents the input scene and jointly"
+ },
+ "2312.07920": {
+  "src": "https://arxiv.org/html/2312.07920v3/overview-final4.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overall pipeline of our method. Left: DrivingGaussian takes sequential data from multi-sensor, including multi-camera images and LiDAR. Middle: To re"
+ },
+ "2312.12337": {
+  "src": "https://arxiv.org/html/2312.12337v4/teaser_bigger_text.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Overview. Given a pair of input images, pixelSplat reconstructs a 3D radiance field parameterized via 3D Gaussian primitives. This yields an explicit"
+ },
+ "2312.13299": {
+  "src": "https://arxiv.org/html/2312.13299v2/figures/teaser_sh.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Our 3DGS training method allows for high compression of 3DGS attributes while maintaining high rendering quality. By sorting the Gaussian features pe"
+ },
+ "2312.14132": {
+  "src": "https://arxiv.org/html/2312.14132v3/dust3r.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Architecture of the network ℱ \\mathcal{F} . Two views of a scene ( I 1 , I 2 ) (I^{1},I^{2}) are first encoded in a Siamese manner with a shared ViT "
+ },
+ "2312.14937": {
+  "src": "https://arxiv.org/html/2312.14937v3/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : We present a novel method of employing sparse control points and a deformation MLP to direct 3D Gaussian dynamics. The MLP uses canonical control poi"
+ },
+ "2312.16084": {
+  "src": "https://arxiv.org/html/2312.16084v2/framework.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : The framework of our LangSplat. Our LangSplat leverages SAM to learn hierarchical semantics to address the point ambiguity issue. Then segment masks "
+ },
+ "2312.16812": {
+  "src": "https://arxiv.org/html/2312.16812v2/methodv5.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview of Spacetime Gaussians and splatted feature rendering. (a) Our method leverages a set of Spacetime Gaussians (STG) to represent the dynamic "
+ },
+ "2401.00834": {
+  "src": "https://arxiv.org/html/2401.00834v3/figs/curve2.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Performance comparison to state-of-the-art deblurring NeRFs. Ours achieved a fast rendering speed ( > > 800 FPS vs. 1 FPS) while maintaining competit"
+ },
+ "2401.01339": {
+  "src": "https://arxiv.org/html/2401.01339v3/teaser_v2.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Rendering results on the Waymo dataset [ 51 ] . Our method produces high-quality rendering at 135 FPS (1066 × \\times 1600) within half an hour of tra"
+ },
+ "2401.02436": {
+  "src": "https://arxiv.org/html/2401.02436v2/img/bike.jpg",
+  "from": "arxiv-html",
+  "n": 2,
+  "caption": "Figure 1 : Our method achieves a 31 × 31\\times compression at indiscernible loss in image quality and greatly improves rendering speed compared to [ 13 ] . Fram"
+ },
+ "2401.16663": {
+  "src": "https://arxiv.org/html/2401.16663v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. Animal Crossing. Utilizing our system, individuals can engage in intuitive and interactive physics-based game-play with deformable virtual animals and"
+ },
+ "2402.00525": {
+  "src": "https://arxiv.org/html/2402.00525v3/pnm-teasr.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . 3D Gaussian Splatting ( Kerbl et al., 2023 ) suffers from popping artifacts during view rotation due to its approximate, global sorting scheme. Our m"
+ },
+ "2402.05054": {
+  "src": "https://arxiv.org/html/2402.05054v1/pipe.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Pipeline . Our model is trained to reconstruct 3D Gaussians from multi-view images, which can be synthesized by off-the-shelf models [ 44 , 51 ] at i"
+ },
+ "2402.15870": {
+  "src": "https://arxiv.org/html/2402.15870v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Our method not only achieves real-time rendering but also significantly enhances the capability of 3D-GS to model scenes with specular and anisotropic"
+ },
+ "2402.17427": {
+  "src": "https://arxiv.org/html/2402.17427v1/appearance_teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : (a) Appearance may vary in adjacent training views. (b) Dark or bright blobs may be created near cameras with training images of different brightness"
+ },
+ "2403.06912": {
+  "src": "https://arxiv.org/html/2403.06912v3/img/illus3.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : 3D Gaussian Splatting [ 18 ] exhibits its potential to reconstruct some fine details (green box) from sparse input views. Nevertheless, the reduced i"
+ },
+ "2403.08551": {
+  "src": "https://arxiv.org/html/2403.08551v5/arch.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Our proposed GaussianImage framework. 2D Gaussians are first formatted and then rasterized to generate the output image. The rasterizer uses our prop"
+ },
+ "2403.08733": {
+  "src": "https://arxiv.org/html/2403.08733v4/teaser3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : GaussCtrl. Our method edits a 3D Gaussian Splatting (3DGS) scene by modifying its descriptive prompt (Upper Left). This is achieved by editing the re"
+ },
+ "2403.11056": {
+  "src": "https://arxiv.org/html/2403.11056v2/Teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : For shading a pixel by a Gaussian signal, 3DGS (a) only treats the Gaussian signal value corresponding to the pixel center as the intensity response."
+ },
+ "2403.11831": {
+  "src": "https://arxiv.org/html/2403.11831v2/overview.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : The pipeline of BAD-Gaussians. Our approach utilizes Gaussian representations to depict sharp 3D scenes derived from a series of motion-blurred image"
+ },
+ "2403.14166": {
+  "src": "https://arxiv.org/html/2403.14166v3/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : By reorganizing the spatial distribution of 3D Gaussians [ 17 ] , our Mini-Splatting reduces the number of Gaussians (in millions) while enhancing mo"
+ },
+ "2403.14530": {
+  "src": "https://arxiv.org/html/2403.14530v3/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Top : A toy example where our method makes the size of the vanilla 3D Gaussian splitting (3DGS) model 72 × 72\\times smaller (or 9.49 × 9.49\\times sma"
+ },
+ "2403.14554": {
+  "src": "https://arxiv.org/html/2403.14554v1/images/renders/bicycle_rgb_52.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": ""
+ },
+ "2403.14627": {
+  "src": "https://arxiv.org/html/2403.14627v2/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview of MVSplat . Given multiple posed images as input, MVSplat first extracts multi-view image features with a Transformer. Then, the per-view c"
+ },
+ "2403.16292": {
+  "src": "https://arxiv.org/html/2403.16292v2/latent-gaussians.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : latentSplat architecture. The architecture follows an autoencoder structure. (Left) Two input views are encoded into a 3D variational Gaussian repres"
+ },
+ "2403.17822": {
+  "src": "https://arxiv.org/html/2403.17822v3/figures/WACV_DN_Splatter_pipeline.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Overview: We use depth and normal priors obtained from common handheld devices and general-purpose networks to enhance Gaussian splatting reconstruct"
+ },
+ "2403.17888": {
+  "src": "https://arxiv.org/html/2403.17888v3/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . Our method, 2DGS , (a) optimizes a set of 2D oriented disks to represent and reconstruct a complex real-world scene from multi-view RGB images. These"
+ },
+ "2403.17898": {
+  "src": "https://arxiv.org/html/2403.17898v2/Teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1 : Visualization of a continuous zoom-out trajectory on the MatrixCity [ 1 ] dataset. Both the rendered 2D images and the corresponding Gaussian primitive"
+ },
+ "2403.20309": {
+  "src": "https://arxiv.org/html/2403.20309v6/arc.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overall Framework of InstantSplat. Unlike the modular COLMAP pipeline with Gaussian Splatting, which relies on time-consuming and accuracy-sensitive "
+ },
+ "2404.01133": {
+  "src": "https://arxiv.org/html/2404.01133v3/Teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : (a, b, c) Our proposed CityGS achieves the SOTA rendering fidelity on Small City scene (5620 training images, 740 test images) of MatrixCity dataset."
+ },
+ "2404.06109": {
+  "src": "https://arxiv.org/html/2404.06109v1/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Densification is a critical component of 3D Gaussian Splatting (3DGS), and a common failure point. In this example (ground truth on the left) we show"
+ },
+ "2404.09591": {
+  "src": "https://arxiv.org/html/2404.09591v3/figs/gs_number_same/main_fig.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2404.10484": {
+  "src": "https://arxiv.org/html/2404.10484v1/teaser-HD-end.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. We reveal that the original adaptive density control strategy in 3D Gaussian Splatting (3D-GS) has the flaw of gradient collision which results in deg"
+ },
+ "2404.10772": {
+  "src": "https://arxiv.org/html/2404.10772v2/figures/teaser_new.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . Applying TSDF fusion with rendered depth maps from the state-of-the-art Mip-Splatting ( Yu et al., 2024a ) models results in noisy and incomplete mes"
+ },
+ "2404.11613": {
+  "src": "https://arxiv.org/html/2404.11613v1/com.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Analysis on Pre-trained Weights ."
+ },
+ "2404.13026": {
+  "src": "https://arxiv.org/html/2404.13026v2/figure_teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : (Left) Leveraging and distilling dynamics priors from a pre-trained video generation model, we estimate a physical material field for the static 3D o"
+ },
+ "2404.17774": {
+  "src": "https://arxiv.org/html/2404.17774v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. Left: Our method achieves high-quality surface reconstruction result on par with NeuS ( Wang et al., 2021 ) for this owl object (DTU-#122). Right: The"
+ },
+ "2404.18454": {
+  "src": "https://arxiv.org/html/2404.18454v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. Novel view synthesis with specular reflection. From left to right: Ref-NeRF ( Verbin et al., 2022 ) , Neural Point Catacaustics ( Kopanas et al., 2022"
+ },
+ "2404.18929": {
+  "src": "https://arxiv.org/html/2404.18929v3/Overview.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Overview. As shown on the left, our method is divided into two main parts: multi-view consistent editing with epipolar constraints and direct 3D fitt"
+ },
+ "2404.19702": {
+  "src": "https://arxiv.org/html/2404.19702v1/teaser_v4.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Novel-view renderings of our predicted Gaussians from object captures (top left), text-conditioned generated object images (top right), scene capture"
+ },
+ "2405.20721": {
+  "src": "https://arxiv.org/html/2405.20721v1/intro.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: An illustration of the necessity of using autoregressive model in the anchor level. While Scaffold-GS [ 20 ] greatly reduces the spatial redundancy am"
+ },
+ "2406.00448": {
+  "src": "https://arxiv.org/html/2406.00448v2/teaser2.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . Given a set of multi-view images with photometric variation (a), such as varying exposure and local tone mapping, our method reconstructs a high-qual"
+ },
+ "2406.01467": {
+  "src": "https://arxiv.org/html/2406.01467v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . We present a rasterized method to compute the depth and surface normal maps of general Gaussian splats. Our method achieves high-quality 3D shape rec"
+ },
+ "2406.06521": {
+  "src": "https://arxiv.org/html/2406.06521v2/figs/render_depth.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Unbiased depth rendering. (a) Illustration of the rendered depth: We take a single Gaussian, flatten it into a plane, and fit it onto the surface as "
+ },
+ "2406.09756": {
+  "src": "https://raw.githubusercontent.com/naver/mast3r/main/assets/examples.jpg",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2406.10219": {
+  "src": "https://arxiv.org/html/2406.10219v3/scale_ambiguity_a_v5.png",
+  "from": "arxiv-html",
+  "n": 2,
+  "caption": "Figure 2 : Spatial uncertainty arises from limited views because there are multiple possible 3D Gaussian locations that map to the same projected Gaussian in pi"
+ },
+ "2406.12080": {
+  "src": "https://arxiv.org/html/2406.12080v1/teaser3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . (a) Starting from thousands of calibrated cameras, covering a large area, we subdivide the scene into chunks (b). We introduce a 3D Gaussian Splattin"
+ },
+ "2406.15643": {
+  "src": "https://arxiv.org/html/2406.15643v1/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Our method makes 3DGS optimization fast and flexible, achieving high rendering quality on a budget. Left and middle: model size and training time are "
+ },
+ "2406.18533": {
+  "src": "https://arxiv.org/html/2406.18533v2/teaser_v3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Two large-scale, high-resolution scene reconstructions using Grendel, our distributed 3D Gaussian rendering system. Both images are rendered using 16 "
+ },
+ "2407.07090": {
+  "src": "https://arxiv.org/html/2407.07090v3/teaser_white.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. We propose a method for fast forward and inverse ray tracing of particle-based scene representations such as Gaussians. The main idea is to construct "
+ },
+ "2407.08447": {
+  "src": "https://arxiv.org/html/2407.08447v2/00001.png",
+  "from": "arxiv-html",
+  "n": 4,
+  "caption": "Figure 1: WildGaussians extends 3DGS [ 14 ] to scenes with appearance and illumination changes (left) . It jointly optimizes a DINO-based [ 27 ] uncertainty pre"
+ },
+ "2407.09510": {
+  "src": "https://w-m.github.io/3dgs-compression-survey/static/images/survey-teaser.webp",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2408.03538": {
+  "src": "https://arxiv.org/html/2408.03538v1/f1_4.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. An edited complex scene with over 1000000 Gaussian splats relighted by dynamic lights. (Right) Offline result (less than 1 FPS) from Relightable 3DGS "
+ },
+ "2408.04474": {
+  "src": "https://arxiv.org/html/2408.04474v2/input-images.png",
+  "from": "arxiv-html",
+  "n": 3,
+  "caption": "Figure 1 : Pipeline – LumiGauss learns the relightable 2D Gaussian [ 42 ] representation from unconstrained photo collection with variable camera parameters and"
+ },
+ "2408.07967": {
+  "src": "https://arxiv.org/html/2408.07967v2/Figures/time.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . Two representative rendering output images with 3D Gaussian Splatting ( Kerbl et al., 2023 ) and our FlashGS."
+ },
+ "2408.13912": {
+  "src": "https://arxiv.org/html/2408.13912v2/methodology.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Method overview. We encode the two uncalibrated images using MASt3R’s pretrained ViT encoder and cross-attention transformers, which we freeze during"
+ },
+ "2409.06765": {
+  "src": "https://repository-images.githubusercontent.com/683223775/8692bf1c-2f61-4d5a-b548-f68e71449d68",
+  "from": "og",
+  "n": 1,
+  "caption": ""
+ },
+ "2409.12892": {
+  "src": "https://arxiv.org/html/2409.12892v2/teaser-right-cropped_embed.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Our method accelerates 3D Gaussian Splatting (3DGS) [ 23 ] reconstruction by replacing the ADAM optimizer with a tailored Levenberg-Marquardt. Left: "
+ },
+ "2410.01804": {
+  "src": "https://arxiv.org/html/2410.01804v6/figures/epi_top.png",
+  "from": "arxiv-html",
+  "n": 4,
+  "caption": "Figure 2 : (a) Here we show a simple “flatland” scene containing two primitives (one red, one blue) with a camera orbiting them, viewed from above. We render th"
+ },
+ "2410.02619": {
+  "src": "https://arxiv.org/html/2410.02619v2/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Overview of GI-GS. GI-GS takes input a set of pretrianed 3D Gaussians, each with a normal attribute. It first rasterizes the scene geometry and materi"
+ },
+ "2410.11419": {
+  "src": "https://arxiv.org/html/2410.11419v1/figure/teaser/teaser.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. From 500-2,000 multi-view one-light-at-a-time (OLAT) input photographs, we train a representation consisting of spatial and angular Gaussians, for rea"
+ },
+ "2410.12781": {
+  "src": "https://arxiv.org/html/2410.12781v2/fig1_vert_crop.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Long-LRM reconstructs a real-world scene with wide viewing coverage from 32 images at a resolution of 960 × 540 960\\times 540 in just 1 second. As a "
+ },
+ "2410.13862": {
+  "src": "https://arxiv.org/html/2410.13862v3/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : DepthSplat connects depth estimation and 3D Gaussian splatting with a shared architecture, which enables cross-task transfer. In particular, DepthSpl"
+ },
+ "2410.18931": {
+  "src": "https://arxiv.org/html/2410.18931v2/demo.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2: The architecture of sort-free Gaussian Splatting via Weighted Sum Rendering. 3DGS needs to tiling, replication, sorting, and rendering. Our method onl"
+ },
+ "2410.24207": {
+  "src": "https://arxiv.org/html/2410.24207v1/pipeline_compare2.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2: Comparison with pose-required sparse-view 3D Gaussian splatting pipeline. Previous methods first generate Gaussians in each local camera coordinate sy"
+ },
+ "2411.12788": {
+  "src": "https://arxiv.org/html/2411.12788v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1: Gaussians in 3DGS exhibit a highly irregular spatial distribution, which inherently limits its representational capability. To address this, Mini-Splatt"
+ },
+ "2411.14974": {
+  "src": "https://arxiv.org/html/2411.14974v3/Graphical_Abstract.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : 3D Convex Splatting for Novel View Synthesis. We introduce a novel primitive-based pipeline for novel view synthesis with 3D smooth convexes. Our 3D "
+ },
+ "2412.00578": {
+  "src": "https://arxiv.org/html/2412.00578v3/3dgs_tile_intersect.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "(a) 3D Gaussian Splatting"
+ },
+ "2412.01506": {
+  "src": "https://arxiv.org/html/2412.01506v3/pipeline_v3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Overview of our method. Encoding & Decoding: We adopt a structured latent representation ( SLat ) for 3D assets encoding, which defines local latents"
+ },
+ "2412.01745": {
+  "src": "https://arxiv.org/html/2412.01745v1/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Pipeline of Horizon-GS. We divide large-scale scenes into chunks. For each chunk, we initialize LOD-structured anchors and conduct the coarse-to-fine"
+ },
+ "2412.12507": {
+  "src": "https://research.nvidia.com/labs/toronto-ai/3DGUT/res/teaser.jpg",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2412.15867": {
+  "src": "https://arxiv.org/html/2412.15867v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Global and indirect illumination in a Gaussian-based scene using our IRGS , highlighting its inter-reflective capabilities."
+ },
+ "2412.19282": {
+  "src": "https://arxiv.org/html/2412.19282v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Our Ref-Gaussian achieves superior rendering quality in novel view synthesis while enjoying fast optimization (training time) and real-time rendering "
+ },
+ "2412.20522": {
+  "src": "https://arxiv.org/html/2412.20522v3/images/method4.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Overview of MaskGaussian. We illustrate our pipeline with five Gaussians, G 1 G_{1} through G 5 G_{5} , where G 2 G_{2} and G 5 G_{5} are not sampled"
+ },
+ "2501.12255": {
+  "src": "https://arxiv.org/html/2501.12255v4/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1: Top : A toy example showcasing the effectiveness of our method, which reduces the size of the vanilla 3D Gaussian Splatting (3DGS) model by 122.5 × 122."
+ },
+ "2501.18590": {
+  "src": "https://research.nvidia.com/labs/toronto-ai/DiffusionRenderer/assets/method_overview.png",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2501.18630": {
+  "src": "https://arxiv.org/html/2501.18630v2/figs/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. Superior scene reconstruction by Beta Splatting. Our deformable Beta Kernels achieve high-fidelity geometry and appearance representation (a), while n"
+ },
+ "2503.01199": {
+  "src": "https://arxiv.org/html/2503.01199v3/warp-based-raster.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2: Comparison of gradient computation pipelines. The left side illustrates a conventional approach where per-pixel gradients are computed, followed by wa"
+ },
+ "2503.08511": {
+  "src": "https://arxiv.org/html/2503.08511v1/figures/fig1.PNG",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Comparison of existing approaches (upper) and the proposed progressive compression (lower). Existing approaches generate multiple independent bitstre"
+ },
+ "2503.10148": {
+  "src": "https://arxiv.org/html/2503.10148v4/figures/student_t_lowres.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Student’s t with varying degrees of freedom ν \\nu . (standard deviation is 5)."
+ },
+ "2503.11651": {
+  "src": "https://arxiv.org/html/2503.11651v1/architecture_v4.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Architecture Overview. Our model first patchifies the input images into tokens by DINO, and appends camera tokens for camera prediction. It then alte"
+ },
+ "2503.18402": {
+  "src": "https://arxiv.org/html/2503.18402v2/tables_and_figures/image1_teaser.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : We propose DashGaussian, a fast 3D Gaussian Splatting (3DGS) optimization method that can be easily plugged into existing 3DGS backbones. DashGaussia"
+ },
+ "2504.01358": {
+  "src": "https://arxiv.org/html/2504.01358v1/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Pipeline : (a) Our method extends standard Gaussian splatting with material intrinsic properties. We first rasterize the Gaussian primitives into G-b"
+ },
+ "2505.19175": {
+  "src": "https://arxiv.org/html/2505.19175v1/images/teaser/teaser_compose_smooth_cropped.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : We propose a new representation for differentiable rendering based on the most classical of 3D primitives: the triangle . We show how a triangle soup"
+ },
+ "2505.23716": {
+  "src": "https://arxiv.org/html/2505.23716v2/teaser_new.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. AnySplat lifts multi-view captures, from sparse to dense, into ready-to-view 3D scenes represented with 3D Gaussians ( Kerbl et al., 2023 ) . Unlike p"
+ },
+ "2506.24096": {
+  "src": "https://arxiv.org/html/2506.24096v2/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. Mesh-in-the-Loop Gaussian Splatting. Our method introduces a novel differentiable mesh extraction framework that operates during the optimization of 3"
+ },
+ "2507.01110": {
+  "src": "https://arxiv.org/html/2507.01110v4/imgs/SIGGRAPH_Teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . Teaser : We introduce a fully hierarchical 3D Gaussian representation trained directly across unstructured, multi-scale image sets—including street-l"
+ },
+ "2507.07733": {
+  "src": "https://arxiv.org/html/2507.07733v2/imgs/teaser.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. We propose RTR-GS, a framework for geometry-light-material decomposition from multi-view images. Our method significantly enhances normal estimation a"
+ },
+ "2507.20512": {
+  "src": "https://arxiv.org/html/2507.20512v1/framework.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2: Overview of illumination decomposition. The GaRe framework accurately decomposes global illumination into reflectance and distinct shading components "
+ },
+ "2507.21809": {
+  "src": "https://arxiv.org/html/2507.21809v2/application.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: An overview of HunyuanWorld 1.0 applications."
+ },
+ "2509.11275": {
+  "src": "https://arxiv.org/html/2509.11275v1/fig_teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Given multi-view images with unconstrained lighting conditions, ROS-GS optimizes its Gaussian Splatting representation and decomposes the geometry, t"
+ },
+ "2509.25122": {
+  "src": "https://trianglesplatting2.github.io/trianglesplatting2/assets/comparisons/garden_ts+.png",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2510.08551": {
+  "src": "https://arxiv.org/html/2510.08551v1/teaser-v4.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: ARTDECO delivers high-fidelity, interactive 3D reconstruction from monocular images, combining efficiency with robustness across indoor and outdoor sc"
+ },
+ "2510.10726": {
+  "src": "https://arxiv.org/html/2510.10726v2/Figs/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Overview of WorldMirror . Our framework employs Multi-modal Tokenization to encode all inputs (images, optional priors including intrinsics, camera p"
+ },
+ "2511.04283": {
+  "src": "https://arxiv.org/html/2511.04283v3/tables_and_figures/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : We propose FastGS, a general acceleration framework for 3D Gaussian Splatting (3DGS) that significantly reduces training time without sacrificing ren"
+ },
+ "2511.04951": {
+  "src": "https://arxiv.org/html/2511.04951v1/bg_NovelViewSynthesis.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 . The novel view synthesis problem: given a set of training images (with known pose) from a scene, render the image from a novel view with an unrecorde"
+ },
+ "2511.10647": {
+  "src": "https://arxiv.org/html/2511.10647v1/x2.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Given any number of images and optional camera poses, Depth Anything 3 reconstructs the visual space, producing consistent depth and ray maps that ca"
+ },
+ "2512.06818": {
+  "src": "https://meshsplatting.github.io/assets/comparisons/real_time_viewer.png",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2601.23065": {
+  "src": "https://arxiv.org/html/2601.23065v2/figures/jpgs/Teaser.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. Scene editing on 2D Gaussian primitives of a reconstructed real indoor scene, f-classroom , including: a ) relighting the ceiling, b ) inserting color"
+ },
+ "2602.09999": {
+  "src": "https://arxiv.org/html/2602.09999v1/resources/aa_grid.jpg",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 3 : We show renderings of two of our models. The first one (top) was trained without anti-aliasing techniques, the second one (bottom) has them enabled. "
+ },
+ "2603.16103": {
+  "src": "https://arxiv.org/html/2603.16103v3/figs/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : NanoGS reduces Gaussian Splat primitive count from the full model to increasingly compact representations. NanoGS achieves substantial compaction rat"
+ },
+ "2604.14268": {
+  "src": "https://raw.githubusercontent.com/Tencent-Hunyuan/HY-World-2.0/main/assets/recon_en.gif",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "2606.11314": {
+  "src": "https://arxiv.org/html/2606.11314v1/Images/tron_method_overview_figure.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : TRON Architecture During training, we (1) apply an intrinsic decomposition model on all input view to get G-buffers and then (2) reconstruct a multiv"
+ },
+ "3DGRUT": {
+  "src": "https://raw.githubusercontent.com/nv-tlabs/3dgrut/main/assets/playground_menu.png",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "Instruct-GS2GS": {
+  "src": "https://instruct-gs2gs.github.io/data/open_graph.png",
+  "from": "og",
+  "n": 1,
+  "caption": ""
+ },
+ "KHR_gaussian_splatting": {
+  "src": null,
+  "from": null,
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "SOGS": {
+  "src": "https://blog.playcanvas.com/img/sogs-textures.jpg",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "SPZ": {
+  "src": null,
+  "from": null,
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "Spark": {
+  "src": "https://opengraph.b-cdn.net/production/images/763a8fd8-7dad-4f91-ab27-e36a889c2d54.png?token=3c6AgBfDRclxcs5EBSW5KdHsgL0c5WObagFZHS6Xh9w&height=630&width=1200&expires=33285588022",
+  "from": "og",
+  "n": 1,
+  "caption": ""
+ },
+ "Splatshop": {
+  "src": "https://raw.githubusercontent.com/m-schuetz/Splatshop/main/docs/vr_interaction.jpg",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "SuperSplat": {
+  "src": "https://repository-images.githubusercontent.com/707265118/54aff978-9167-44e5-8a64-7fe9c7d682e3",
+  "from": "og",
+  "n": 1,
+  "caption": ""
+ },
+ "WebDGS": {
+  "src": null,
+  "from": null,
+  "n": 1,
+  "caption": "",
+  "pin": true
+ },
+ "XScene-UEPlugin": {
+  "src": "https://raw.githubusercontent.com/xverse-engine/XScene-UEPlugin/main/UEPlugin/Media/image/compare/1.5-1.png",
+  "from": "og",
+  "n": 1,
+  "caption": "",
+  "pin": true
+ }
+}

@@ -4,33 +4,46 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>3DGS 漫游指南</title>
-<meta name="description" content="用直觉、三个可以动手的小实验和一张方向地图，讲清 3D Gaussian Splatting 的原理，并梳理 2020–2026 年重建速度、压缩、画质、几何与混合渲染、编辑、重光照六个方向的关键工作。">
+<meta name="description" content="3D Gaussian Splatting 通俗导读：一张可点击的研究方向总览图，三个可以动手的原理小实验，以及六大模块 @@TOTAL@@ 篇论文的配图卡片。">
 <meta property="og:title" content="3DGS 漫游指南">
-<meta property="og:description" content="3D Gaussian Splatting 通俗导读：原理小实验 + 六大方向 @@TOTAL@@ 项关键工作。">
+<meta property="og:description" content="3D Gaussian Splatting 通俗导读：研究方向总览、原理小实验、六大模块 @@TOTAL@@ 篇论文。">
 <meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='12' cy='14' rx='9' ry='6' transform='rotate(-25 12 14)' fill='%230a686d' fill-opacity='.85'/%3E%3Cellipse cx='19' cy='17' rx='8' ry='5' transform='rotate(35 19 17)' fill='%23e0663a' fill-opacity='.8'/%3E%3Cellipse cx='16' cy='22' rx='7' ry='4' fill='%23eda100' fill-opacity='.75'/%3E%3C/svg%3E">
 <script>
   try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  // Teaser images fade in once loaded; if they never load, the drawn card underneath stays.
+  document.addEventListener('load', function (e) { var t = e.target; if (t.tagName === 'IMG' && t.parentNode && t.parentNode.classList.contains('thumb')) t.classList.add('ok'); }, true);
+  document.addEventListener('error', function (e) {
+    var t = e.target;
+    if (t.tagName !== 'IMG' || !t.parentNode || !t.parentNode.classList.contains('thumb')) return;
+    var n = +(t.getAttribute('data-try') || 0);
+    t.setAttribute('data-try', n + 1);
+    if (n === 0) setTimeout(function () { t.src = t.src + '&retry=1'; }, 1200 + Math.random() * 2400);
+    else if (n === 1 && t.getAttribute('data-orig')) t.src = t.getAttribute('data-orig');
+    else t.classList.add('bad');
+  }, true);
 </script>
 <style>
 @@STYLE@@
 </style>
 </head>
 <body>
+@@ICONS@@
 <a class="skip" href="#main">跳到正文</a>
 
 <header class="topbar">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="3DGS 漫游指南，回到顶部">
+    <a class="brand" href="#overview" aria-label="3DGS 漫游指南，回到总览">
       <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="12" cy="14" rx="9" ry="6" transform="rotate(-25 12 14)" fill="var(--accent)" fill-opacity=".85"/><ellipse cx="19" cy="17" rx="8" ry="5" transform="rotate(35 19 17)" fill="var(--cat-2)" fill-opacity=".8"/><ellipse cx="16" cy="22" rx="7" ry="4" fill="var(--cat-4)" fill-opacity=".75"/></svg>
       <span>3DGS 漫游指南</span>
     </a>
     <nav class="toc" aria-label="目录">
+      <a href="#overview">总览</a>
       <a href="#intuition">直觉</a>
       <a href="#pipeline">原理</a>
+      <a href="#modules">六大模块</a>
       <a href="#timeline">时间线</a>
-      <a href="#map">方向地图</a>
-      <a href="#directions">六大方向</a>
       <a href="#ecosystem">工程生态</a>
       <a href="#caveats">读数字</a>
       <a href="#glossary">术语</a>
@@ -45,11 +58,34 @@
 
 <main id="main">
 
-<section class="hero" id="top">
+<section class="overview" id="overview">
   <div class="wrap">
     <p class="eyebrow">3D Gaussian Splatting · 通俗导读 · 2020–2026</p>
-    <h1><span class="phrase">用几百万颗半透明的「彩色果冻豆」，</span><span class="phrase">拼出一个能实时漫游的三维世界</span></h1>
-    <p class="lede">3D 高斯泼溅（3DGS）把真实场景表示成大量半透明的三维高斯，从照片里训练出来，用普通显卡就能实时浏览。这一页先用直觉和三个能动手的小实验讲清原理，再按六个方向梳理 2023–2026 年的关键进展。</p>
+    <h1>3DGS 研究方向与技术关联</h1>
+    <p class="overview-sub">重建 × 提速 · 编辑 × LoD · 几何 × 重光照</p>
+    <p class="lede">六个模块覆盖 @@TOTAL@@ 篇论文与工具，其中 @@CORE@@ 篇是各方向的代表作。点模块或子模块跳到对应章节，点论文名直达它的配图卡片；方块之间的箭头标出了技术上的关联。</p>
+@@HUB@@
+    <div class="hub-foot">
+      <span class="hub-foot-label">先打基础</span>
+      <a href="#intuition">3DGS 是什么</a>
+      <a href="#pipeline">原理四步 · 三个小实验</a>
+      <a href="#timeline">2020–2026 时间线</a>
+      <span class="hub-foot-label">再看落地</span>
+      <a href="#m-apps">更多应用</a>
+      <a href="#ecosystem">工程生态与许可</a>
+      <a href="#caveats">读数字的口径</a>
+      <a href="#glossary">术语表</a>
+      <a href="#errata">参考与勘误</a>
+    </div>
+  </div>
+</section>
+
+<section id="intuition">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">基础 · 直觉</p>
+      <h2>用几百万颗半透明的「彩色果冻豆」，拼出一个能实时漫游的三维世界</h2>
+    </div>
     <figure class="stage hero-stage">
       <canvas id="hero-canvas" width="960" height="320" role="img" aria-label="由二维高斯实时拟合出的 3DGS 字样"></canvas>
       <figcaption class="hero-log">
@@ -65,18 +101,10 @@
     <ul class="facts">
       <li><b>2023 年 8 月</b><span>原论文发表于 SIGGRAPH 2023（ACM TOG 42(4)）</span></li>
       <li><b>1080p 实时</b><span>原文：真实场景新视角合成 ≥ 30 fps</span></li>
-      <li><b>@@TOTAL@@ 项工作</b><span>六大方向加扩展应用，其中 @@STARS@@ 项标为里程碑</span></li>
+      <li><b>@@TOTAL@@ 篇</b><span>六大模块加延伸应用，其中 @@STARS@@ 篇标为里程碑</span></li>
     </ul>
-  </div>
-</section>
 
-<section id="intuition">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">第一部分 · 直觉</p>
-      <h2>3DGS 到底是什么</h2>
-    </div>
-    <div class="two">
+    <div class="two" style="margin-top:44px">
       <div class="prose">
         <p>想象把一个房间「拆」成几百万颗彩色果冻豆。每颗都是半透明的：有的圆，有的扁，有的细长，朝向各不相同，边缘越往外越淡。它们悬浮在空中，密密麻麻地叠在一起。从任何角度看过去，把视线上的果冻豆从近到远叠起来，就得到了那个角度的照片。</p>
         <p>3DGS 做的就是这件事：先随手撒一把果冻豆，再对照几十到几百张实拍照片，不断调整每颗豆子的位置、形状、朝向、颜色和透明度，直到从每个拍摄角度看过去都和照片一致。哪里细节不够，就多放几颗；哪里的豆子没用，就拿掉。</p>
@@ -93,7 +121,7 @@
           <li><i style="background:var(--cat-4)"></i><span><b>1</b> 不透明度</span></li>
           <li><i style="background:var(--cat-5)"></i><span><b>48</b> 颜色（3 阶球谐）</span></li>
         </ul>
-        <p class="small" style="margin-top:12px">颜色占了 48 个：其中 3 个是基础色，另外 45 个负责「换个方向看，颜色会变」，比如高光。每颗约 236 字节，几百万颗就是几百 MB，所以<a href="#dir-compress">压缩</a>第一刀往往砍在球谐上。</p>
+        <p class="small" style="margin-top:12px">颜色占了 48 个：其中 3 个是基础色，另外 45 个负责「换个方向看，颜色会变」，比如高光。每颗约 236 字节，几百万颗就是几百 MB，所以<a href="#s-cmp-code">压缩</a>第一刀往往砍在球谐上。</p>
       </aside>
     </div>
 
@@ -128,14 +156,14 @@
       </table>
     </div>
     <p class="footnote">除 Mip-NeRF 360 外均在一张 RTX A6000 上测得。† 数值取自 Mip-NeRF 360 原文；3DGS 作者自己重跑得到的 PSNR 为 27.58。* 原文在 4 卡 A100 节点上训练 12 小时，折合单卡约 48 小时。训练时间都不含 COLMAP 求位姿。</p>
-    <p class="takeaway">一句话：训练时间约为 Mip-NeRF 360 的 1/70，帧率高出两千多倍，画质接近；代价是模型大了约 85 倍。后来的六个研究方向，基本都是在补这笔账。</p>
+    <p class="takeaway">一句话：训练时间约为 Mip-NeRF 360 的 1/70，帧率高出两千多倍，画质接近；代价是模型大了约 85 倍。后面的六个模块，基本都是在补这笔账。</p>
   </div>
 </section>
 
 <section id="pipeline">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">第二部分 · 原理</p>
+      <p class="eyebrow">基础 · 原理</p>
       <h2>它是怎么工作的：四步</h2>
       <p class="lede">从照片到可实时浏览的场景，要经过初始化、投影、排序混合、优化四步。后三步各配了一个小实验，全部在你的浏览器里实时计算。</p>
     </div>
@@ -148,7 +176,7 @@
         </div>
         <div class="prose">
           <p>先用 COLMAP 这类运动恢复结构（SfM）工具，从几十到几百张照片里算出每张照片的相机位置和朝向，顺带得到一团稀疏的三维点。3DGS 在每个点上放一颗高斯：颜色取点的颜色，初始大小取它与最近三个邻居的平均距离，形状先是正圆球。</p>
-          <p>这一步一旦失败（弱纹理、反光、运动模糊、照片太少），后面的一切都无从谈起。这正是<a href="#dir-speed">方向一</a>里「用前馈模型替代 SfM」想解决的问题。</p>
+          <p>这一步一旦失败（弱纹理、反光、运动模糊、照片太少），后面的一切都无从谈起。这正是<a href="#s-recon-ff">模块一</a>里「用前馈模型替代 SfM」想解决的问题。</p>
         </div>
       </article>
 
@@ -188,7 +216,7 @@
         </div>
         <div class="prose">
           <p>屏幕被切成 16×16 像素的图块（tile）。每颗高斯按它覆盖的图块复制若干份，连同深度一起在 GPU 上做一次基数排序。随后每个像素从近到远累加颜色：Tᵢ 是光线穿过前面所有高斯后剩下的透光率，αᵢ 是这颗高斯在该像素处的不透明度。α 小于 1/255 的直接跳过；累计不透明度快要超过 0.9999 时提前停止。</p>
-          <p>排序依据的是每颗高斯中心的深度，这是一种近似，所以转动视角时偶尔会「跳色」（popping）。<a href="#dir-quality">方向三</a>里的 StopThePop、EVER 专门处理这个问题。</p>
+          <p>排序依据的是每颗高斯中心的深度，这是一种近似，所以转动视角时偶尔会「跳色」（popping）。<a href="#s-cmp-render">模块三</a>延伸阅读里的 StopThePop、EVER 专门处理这个问题。</p>
         </div>
         <p class="formula" style="margin-top:12px"><span>C = Σᵢ cᵢ αᵢ Tᵢ + T<sub>末</sub>·背景</span><span>Tᵢ = Π<sub>j&lt;i</sub> (1 − αⱼ)</span><span>αᵢ = min(0.99, oᵢ · Gᵢ(x))</span></p>
         <div class="demo" id="demo-blend">
@@ -266,12 +294,37 @@
   </div>
 </section>
 
+<section id="modules">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">六大模块</p>
+      <h2>方向、代表作与延伸阅读</h2>
+      <p class="lede">顺序与开头的总览图一致。每个模块先说清要解决的问题，再按子模块排出代表作（两张总览图里列出的论文），其余论文收在「延伸阅读」里。卡片上的图来自论文或项目页，加载不到时显示示意图；★ 表示里程碑。</p>
+    </div>
+    <div class="filters" role="search">
+      <div class="filter-row">
+        <label class="search">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="搜索名称、会议或关键词，如 TOG、前馈、网格" aria-label="搜索论文" autocomplete="off">
+        </label>
+        <label class="switch"><input type="checkbox" id="only-star"> 只看里程碑 ★</label>
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+      <div class="dir-chips" role="group" aria-label="按模块筛选">
+@@CHIPS@@
+      </div>
+    </div>
+@@MODULES@@
+    <p class="empty" id="empty" hidden>没有匹配的论文。换个关键词，或关掉「只看里程碑」。</p>
+  </div>
+</section>
+
 <section id="timeline">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">第三部分 · 脉络</p>
+      <p class="eyebrow">脉络</p>
       <h2>2020–2026 时间线</h2>
-      <p class="lede">日期取论文第一版上 arXiv 的月份，会议是正式发表处。★ 为里程碑，右侧标签可跳到对应方向。</p>
+      <p class="lede">日期取论文第一版上 arXiv 的月份，会议是正式发表处。★ 为里程碑，右侧标签可跳到对应模块。</p>
     </div>
     <div class="tl">
 @@TIMELINE@@
@@ -279,46 +332,10 @@
   </div>
 </section>
 
-<section id="map">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">第四部分 · 全景</p>
-      <h2>方向地图</h2>
-      <p class="lede">3DGS 的研究可以挂在一条「从拍摄到上屏」的主流程上，另有两条贯穿全程的支撑主线；编辑、重光照和动态场景是在此基础上的扩展。点击标签跳到对应方向。</p>
-    </div>
-@@MAP@@
-  </div>
-</section>
-
-<section id="directions">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">第五部分 · 详解</p>
-      <h2>六大方向与代表工作</h2>
-      <p class="lede">每个方向先说清要解决的问题，再给出主流思路、工程建议和代表工作。★ 表示里程碑；「作者自评」「厂商声明」等标签提示数字的来源。</p>
-    </div>
-    <div class="filters" role="search">
-      <div class="filter-row">
-        <label class="search">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input id="q" type="search" placeholder="搜索名称、会议或关键词，如 TOG、前馈、网格" aria-label="搜索工作" autocomplete="off">
-        </label>
-        <label class="switch"><input type="checkbox" id="only-star"> 只看里程碑 ★</label>
-        <span class="count" id="count" aria-live="polite"></span>
-      </div>
-      <div class="dir-chips" role="group" aria-label="按方向筛选">
-@@CHIPS@@
-      </div>
-    </div>
-@@DIRECTIONS@@
-    <p class="empty" id="empty" hidden>没有匹配的工作。换个关键词，或关掉「只看里程碑」。</p>
-  </div>
-</section>
-
 <section id="ecosystem">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">第六部分 · 落地</p>
+      <p class="eyebrow">落地</p>
       <h2>工程生态与许可</h2>
       <p class="lede">「值得精读」和「值得当底座」要分开判断。下表的许可信息核对于 @@UPDATED@@，以各仓库当前的 LICENSE 为准。</p>
     </div>
@@ -339,7 +356,7 @@
 <section id="caveats">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">第七部分 · 口径</p>
+      <p class="eyebrow">口径</p>
       <h2>读数字时要当心</h2>
       <p class="lede">论文之间的数字经常不能直接比较。看到「快 10 倍」「小 100 倍」时，先问下面几个问题。</p>
     </div>
@@ -366,7 +383,7 @@
     <div class="sec-head">
       <p class="eyebrow">附录</p>
       <h2>参考与勘误</h2>
-      <p class="lede">本页以一份「3DGS 研究进展综述（截至 2026 年中）」为骨架，逐条核对后补充而成。区分三类信息：可复现的论文结果、作者或厂商的自述、第三方报道，后两类在文中都有标注。</p>
+      <p class="lede">本页以一份「3DGS 研究进展综述（截至 2026 年中）」和两张研究方向总览图为骨架，逐条核对后补充而成。区分三类信息：可复现的论文结果、作者或厂商的自述、第三方报道，后两类在文中都有标注。</p>
     </div>
     <h3 style="margin-bottom:10px">对原综述的更正与更新</h3>
     <ul class="errata">
@@ -378,6 +395,7 @@
       <li>会议信息：对照 CVF Open Access（CVPR 2024/2025/2026、ICCV 2025）、ECVA（ECCV 2024）的收录列表，以及论文页的 Comments 字段和官方代码仓库的说明。</li>
       <li>许可证与项目状态：对照 GitHub 仓库的 LICENSE、README，以及 Khronos 官方 glTF 仓库。</li>
       <li>原论文数字：3DGS 论文 Table 1 与正文（<a href="https://arxiv.org/abs/2308.04079" target="_blank" rel="noopener">arXiv:2308.04079</a>，<a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/" target="_blank" rel="noopener">项目页</a>）。</li>
+      <li>卡片配图：取自 arXiv HTML 版论文的第一张图（多为 teaser），或项目页的封面图，直接从原站加载，版权归原作者；本仓库不保存这些图片。</li>
     </ol>
     <p class="footnote">信息核对截至 @@UPDATED@@。领域变化很快，引用前请以论文和仓库的最新版本为准。</p>
   </div>
@@ -385,10 +403,15 @@
 
 </main>
 
+<a class="to-top" id="to-top" href="#overview" hidden>
+  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  回到总览
+</a>
+
 <footer>
   <div class="wrap">
     <span>3DGS 漫游指南 · 更新于 @@UPDATED@@</span>
-    <span>单个 HTML 文件，不加载任何外部资源 · 内容与生成脚本见 <a href="https://github.com/Seanwilliam2077/3dgs-walkthrough" target="_blank" rel="noopener">GitHub</a></span>
+    <span>单个 HTML 文件；论文配图从原站加载 · 内容与生成脚本见 <a href="https://github.com/Seanwilliam2077/3dgs-walkthrough" target="_blank" rel="noopener">GitHub</a></span>
   </div>
 </footer>
 

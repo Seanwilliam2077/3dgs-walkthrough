@@ -1,4 +1,4 @@
-/* app.js — page behaviour: theme, hero, the three demos, chart, catalogue filter. */
+/* app.js — page behaviour: theme, hero, the three demos, chart, catalogue filter, back-to-overview. */
 (function () {
   'use strict';
   var S = window.Splat2D;
@@ -818,45 +818,100 @@
   (function catalogue() {
     var q = $('q'), star = $('only-star'), count = $('count'), empty = $('empty');
     if (!q) return;
-    var works = [].slice.call(document.querySelectorAll('.work'));
-    var groups = [].slice.call(document.querySelectorAll('.group'));
-    var dirs = [].slice.call(document.querySelectorAll('.dir'));
+    var cards = [].slice.call(document.querySelectorAll('#modules .card'));
+    var lists = [].slice.call(document.querySelectorAll('#modules .cards'));
+    var folds = [].slice.call(document.querySelectorAll('#modules details.more'));
+    var subsecs = [].slice.call(document.querySelectorAll('#modules .subsec'));
+    var mods = [].slice.call(document.querySelectorAll('#modules .module'));
     var chips = [].slice.call(document.querySelectorAll('.dir-chips button'));
-    var dir = 'all';
-    works.forEach(function (w) { w._t = (w.getAttribute('data-search') || '').toLowerCase(); });
+    var mod = 'all';
+    cards.forEach(function (c) { c._t = c.getAttribute('data-search') || ''; });
+    // Remember how the reader left each fold, so clearing a search restores it.
+    folds.forEach(function (d) {
+      d._user = d.open;
+      d.addEventListener('toggle', function () { if (!d._auto) d._user = d.open; d._auto = false; });
+    });
+    function setOpen(d, open) {
+      if (d.open === open) return;
+      d._auto = true;
+      d.open = open;
+    }
     function apply() {
       var terms = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      var searching = terms.length > 0 || star.checked;
       var shown = 0;
-      works.forEach(function (w) {
-        var ok = (dir === 'all' || w.getAttribute('data-dir') === dir) &&
-          (!star.checked || w.getAttribute('data-star') === '1') &&
-          terms.every(function (t) { return w._t.indexOf(t) >= 0; });
-        w.hidden = !ok;
+      cards.forEach(function (c) {
+        var ok = (mod === 'all' || c.getAttribute('data-mod') === mod) &&
+          (!star.checked || c.getAttribute('data-star') === '1') &&
+          terms.every(function (t) { return c._t.indexOf(t) >= 0; });
+        c.hidden = !ok;
         if (ok) shown++;
       });
-      groups.forEach(function (g) { g.hidden = !g.querySelector('.work:not([hidden])'); });
-      dirs.forEach(function (d) { d.hidden = !d.querySelector('.work:not([hidden])'); });
-      count.textContent = '显示 ' + shown + ' / ' + works.length + ' 项';
+      lists.forEach(function (l) {
+        var any = !!l.querySelector('.card:not([hidden])');
+        l.hidden = !any;
+        var prev = l.previousElementSibling;
+        if (prev && prev.classList.contains('group-title')) prev.hidden = !any;
+      });
+      folds.forEach(function (d) {
+        var any = !!d.querySelector('.card:not([hidden])');
+        d.hidden = !any;
+        setOpen(d, searching ? any : d._user);
+      });
+      subsecs.forEach(function (s) { s.hidden = !s.querySelector('.card:not([hidden])'); });
+      mods.forEach(function (m) { m.hidden = !m.querySelector('.card:not([hidden])'); });
+      count.textContent = '显示 ' + shown + ' / ' + cards.length + ' 篇';
       empty.hidden = shown > 0;
+    }
+    function reset() {
+      q.value = ''; star.checked = false; mod = 'all';
+      chips.forEach(function (x) { x.setAttribute('aria-pressed', String(x.getAttribute('data-mod') === 'all')); });
+      apply();
+    }
+    // Make an in-page target visible before the browser scrolls to it.
+    function reveal(el) {
+      if (!el) return;
+      if (el.closest('#modules') && (el.hidden || el.closest('[hidden]'))) reset();
+      var d = el.closest('details');
+      if (d && !d.open) { d.open = true; d._user = true; }
     }
     q.addEventListener('input', apply);
     star.addEventListener('change', apply);
     chips.forEach(function (b) {
       b.addEventListener('click', function () {
-        dir = b.getAttribute('data-dir');
+        mod = b.getAttribute('data-mod');
         chips.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
         apply();
       });
     });
-    // Links into a direction clear the filters first, so the target is never hidden.
     document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href^="#dir-"]');
-      if (!a) return;
-      q.value = ''; star.checked = false; dir = 'all';
-      chips.forEach(function (x) { x.setAttribute('aria-pressed', String(x.getAttribute('data-dir') === 'all')); });
-      apply();
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || a.getAttribute('href').length < 2) return;
+      reveal(document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))));
     });
+    function fromHash() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      var el = id && document.getElementById(id);
+      if (el && el.closest('details') && !el.closest('details').open) {
+        reveal(el);
+        el.scrollIntoView();
+      }
+    }
+    window.addEventListener('hashchange', fromHash);
     apply();
+    fromHash();
+  })();
+
+  /* ------------------------------------------------ back to the overview */
+  (function toTop() {
+    var btn = $('to-top'), hub = $('overview');
+    if (!btn || !hub) return;
+    function set(show) { btn.hidden = !show; }
+    if (typeof window.IntersectionObserver === 'function') {
+      new IntersectionObserver(function (es) { set(!es[0].isIntersecting); }, { rootMargin: '0px 0px -30% 0px' }).observe(hub);
+    } else {
+      window.addEventListener('scroll', function () { set(hub.getBoundingClientRect().bottom < 0); }, { passive: true });
+    }
   })();
 
   /* ------------------------------------------------- current section in nav */

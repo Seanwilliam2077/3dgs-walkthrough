@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Build ../index.html from template.html + data.py, inlining CSS and JS.
+Build ../index.html from template.html + data.py + figures.json, inlining CSS,
+JS and the icon sprite.
 
     python src/build.py          (python3 on macOS / Linux)
 
-The output is a single self-contained file: no fonts, scripts or images are
-loaded from anywhere else, so the page opens quickly behind any firewall.
+The output is a single file. The only things it loads from elsewhere are the
+paper teaser images (from arXiv or the authors' sites); each card shows a drawn
+placeholder until its image arrives, and keeps it if the image never does.
 """
 import html
+import json
 import re
 import sys
-from collections import OrderedDict
+import urllib.parse
 from pathlib import Path
 
 SRC = Path(__file__).resolve().parent
@@ -20,19 +23,27 @@ sys.path.insert(0, str(SRC))
 import data as D  # noqa: E402
 
 AWARD_WORDS = ("最佳", "荣誉提名", "亚军")
+ALL = D.MODULES + [D.APPS]
+# Where each module and relation sits on the overview grid (see style.css .hub).
+AREA = {"recon": "a", "organize": "b", "compress": "c", "geometry": "d", "relight": "e", "dynamic": "f"}
+REL_AREA = {("recon", "organize"): ("r1", "h"), ("organize", "compress"): ("r2", "h"),
+            ("recon", "geometry"): ("r3", "down"), ("geometry", "organize"): ("r4", "diag"),
+            ("organize", "relight"): ("r5", "both"), ("geometry", "relight"): ("r6", "h"),
+            ("dynamic", "compress"): ("r7", "up")}
 
 
 def esc(s):
     return html.escape(str(s), quote=True)
 
 
-def venue_badge(v):
-    cls = "venue award" if any(w in v for w in AWARD_WORDS) else "venue"
-    return f'<span class="{cls}">{esc(v)}</span>'
+def thumb_url(src):
+    """720 px WebP served by the images.weserv.nl cache (keeps cards light; originals are often several MB)."""
+    return "https://images.weserv.nl/?url=" + urllib.parse.quote(src, safe="") + "&w=720&output=webp&q=70"
 
 
-def ext_link(href, label):
-    return f'<a href="{esc(href)}" target="_blank" rel="noopener">{esc(label)}</a>'
+def ext_link(href, label, cls=None):
+    c = f' class="{cls}"' if cls else ""
+    return f'<a{c} href="{esc(href)}" target="_blank" rel="noopener">{esc(label)}</a>'
 
 
 def url_label(url):
@@ -45,34 +56,60 @@ def url_label(url):
     return "项目页"
 
 
+def works_of(section):
+    for _, ws in section["groups"]:
+        yield from ws
+    yield from section["extra"]
+
+
+def every_work():
+    for m in ALL:
+        for s in m["sections"]:
+            for w in works_of(s):
+                yield m, s, w
+
+
 # ------------------------------------------------------------------ checks
 
-def validate():
-    problems = []
-    seen = set()
-    for d in D.DIRECTIONS:
-        for w in d["works"]:
-            key = (d["id"], w["name"])
-            if key in seen:
-                problems.append(f"duplicate work {key}")
-            seen.add(key)
-            if not re.fullmatch(r"\d{4}(\.\d{2})?", w["date"]):
-                problems.append(f"bad date {w['name']}: {w['date']}")
-            if w["arxiv"] and not re.fullmatch(r"\d{4}\.\d{4,5}", w["arxiv"]):
-                problems.append(f"bad arxiv id {w['name']}: {w['arxiv']}")
-            if not (w["arxiv"] or w["url"] or w["code"]):
-                problems.append(f"no link for {w['name']}")
-            if not w["group"]:
-                problems.append(f"no group for {w['name']}")
-            if w["arxiv"] and len(w["date"]) == 7:
-                # the first arXiv version is at most a month before the id's month
-                yy, mm = int(w["arxiv"][:2]), int(w["arxiv"][2:4])
-                y, m = int(w["date"][2:4]), int(w["date"][5:7])
-                gap = (yy * 12 + mm) - (y * 12 + m)
-                if gap not in (0, 1):
-                    problems.append(f"date {w['date']} does not match arXiv id {w['arxiv']} ({w['name']})")
+def prepare():
+    """Validate data.py, assign anchor ids, sort extras by date."""
+    problems, used = [], set()
+    for m in ALL:
+        names = set()
+        for s in m["sections"]:
+            s["extra"].sort(key=lambda w: w["date"] if len(w["date"]) == 7 else w["date"] + ".00")
+            for w in works_of(s):
+                if w["name"] in names:
+                    problems.append(f"duplicate work {w['name']} in {m['id']}")
+                names.add(w["name"])
+                if not re.fullmatch(r"\d{4}(\.\d{2})?", w["date"]):
+                    problems.append(f"bad date {w['name']}: {w['date']}")
+                if w["arxiv"] and not re.fullmatch(r"\d{4}\.\d{4,5}", w["arxiv"]):
+                    problems.append(f"bad arxiv id {w['name']}: {w['arxiv']}")
+                if not (w["arxiv"] or w["url"] or w["code"]):
+                    problems.append(f"no link for {w['name']}")
+                if w["arxiv"] and len(w["date"]) == 7:
+                    # the id's month is the announcement month; v1 can be up to two months earlier
+                    yy, mm = int(w["arxiv"][:2]), int(w["arxiv"][2:4])
+                    y, mo = int(w["date"][2:4]), int(w["date"][5:7])
+                    if (yy * 12 + mm) - (y * 12 + mo) not in (0, 1, 2):
+                        problems.append(f"date {w['date']} does not match arXiv id {w['arxiv']} ({w['name']})")
+                slug = re.sub(r"[^a-z0-9]+", "-", w["name"].lower()).strip("-") or "work"
+                cand, i = slug, 2
+                while cand in used:
+                    cand, i = f"{slug}-{i}", i + 1
+                used.add(cand)
+                w["_id"] = "p-" + cand
+            for h in s["hub"]:
+                if h not in {w["name"] for w in works_of(s)}:
+                    problems.append(f"hub name {h!r} is not a work in section {s['id']}")
     if problems:
         raise SystemExit("data.py problems:\n  " + "\n  ".join(problems))
+
+
+def figures():
+    p = SRC / "figures.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
 # ---------------------------------------------------------------- fragments
@@ -87,89 +124,170 @@ def cells():
     return "".join(out)
 
 
-def work_html(w, d):
+def venue_badge(v):
+    cls = "venue award" if any(k in v for k in AWARD_WORDS) else "venue"
+    return f'<span class="{cls}">{esc(v)}</span>'
+
+
+def card(m, s, w, figs):
+    primary = f"https://arxiv.org/abs/{w['arxiv']}" if w["arxiv"] else (w["url"] or w["code"])
+    fig = figs.get(w["arxiv"] or w["name"]) or {}
+    img = w["img"] or fig.get("src")
     search = " ".join(filter(None, [
-        w["name"], w["aka"], w["venue"], w["text"], w["group"], w["arxiv"], w["tag"], w["date"],
-        d["name"], d["en"], "里程碑" if w["star"] else "",
-    ]))
+        w["name"], w["aka"], w["venue"], w["text"], w["arxiv"], w["tag"], w["date"],
+        s["name"], m["name"], "里程碑" if w["star"] else "",
+    ])).lower()
     links = []
     if w["arxiv"]:
-        links.append(ext_link(f"https://arxiv.org/abs/{w['arxiv']}", f"arXiv:{w['arxiv']}"))
+        links.append(ext_link(primary, f"arXiv:{w['arxiv']}"))
     if w["url"]:
         links.append(ext_link(w["url"], url_label(w["url"])))
     if w["code"]:
         links.append(ext_link(w["code"], "代码"))
-    title = [f'<span class="name">{esc(w["name"])}</span>']
-    if w["star"]:
-        title.insert(0, '<span class="star-mark" title="里程碑">★</span>')
-    title.append(venue_badge(w["venue"]))
-    if w["tag"]:
-        title.append(f'<span class="tag">{esc(w["tag"])}</span>')
-    aka = f'<div class="aka">{esc(w["aka"])}</div>' if w["aka"] else ""
-    star_cls = " star" if w["star"] else ""
+    tag = f'<span class="tag">{esc(w["tag"])}</span>' if w["tag"] else ""
+    aka = f'<p class="aka">{esc(w["aka"])}</p>' if w["aka"] else ""
+    star = '<span class="star-mark" title="里程碑">★</span>' if w["star"] else ""
+    img_html = (f'<img src="{esc(thumb_url(img))}" data-orig="{esc(img)}" alt="" loading="lazy" decoding="async" '
+                f'referrerpolicy="no-referrer">' if img else "")
+    source = {"arxiv-html": "图：arXiv 论文", "ar5iv": "图：ar5iv 论文", "og": "图：项目页"}.get(fig.get("from"), "")
+    if w["img"]:
+        source = "图：项目页"
     return (
-        f'<li class="work{star_cls}" data-dir="{d["id"]}" data-star="{1 if w["star"] else 0}" data-search="{esc(search.lower())}">'
-        f'<div class="date">{esc(w["date"])}</div>'
-        f'<div><div class="title">{"".join(title)}</div>{aka}'
-        f'<p class="text">{esc(w["text"])}</p>'
-        f'<div class="links">{"".join(links)}</div></div></li>'
+        f'<article class="card{" star" if w["star"] else ""}" id="{w["_id"]}" data-mod="{m["id"]}" '
+        f'data-star="{1 if w["star"] else 0}" data-search="{esc(search)}">'
+        f'<a class="thumb" href="{esc(primary)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"'
+        f'{" title=" + chr(34) + esc(source) + chr(34) if source else ""}>'
+        f'<span class="fallback"><svg class="fb-ic"><use href="#ic-{s["icon"]}"/></svg>'
+        f'<span class="fb-name">{esc(w["name"])}</span><span class="fb-sec">{esc(s["name"])}</span></span>'
+        f'{img_html}</a>'
+        f'<div class="card-body">'
+        f'<div class="card-meta"><span class="date">{esc(w["date"])}</span>{venue_badge(w["venue"])}{tag}</div>'
+        f'<h5 class="card-title">{star}<a href="{esc(primary)}" target="_blank" rel="noopener">{esc(w["name"])}</a></h5>'
+        f'{aka}<p class="text">{esc(w["text"])}</p>'
+        f'<div class="links">{"".join(links)}</div>'
+        f'</div></article>'
     )
 
 
-def directions_html():
-    parts = []
-    for d in D.DIRECTIONS:
-        groups = OrderedDict()
-        for w in d["works"]:
-            groups.setdefault(w["group"], []).append(w)
-        for ws in groups.values():
-            ws.sort(key=lambda w: w["date"] if len(w["date"]) == 7 else w["date"] + ".00")
-        ideas = "".join(f'<li><b>{esc(t)}</b>{esc(x)}</li>' for t, x in d["ideas"])
-        ideas_block = f'<div><h4 style="margin-bottom:8px">主流思路</h4><ul class="ideas">{ideas}</ul></div>' if d["ideas"] else ""
-        body = [
-            f'<article class="dir" id="dir-{d["id"]}" aria-labelledby="dir-{d["id"]}-h">',
-            '<div class="dir-head">',
-            f'<span class="no">{esc(d["no"])}</span>',
-            f'<h3 id="dir-{d["id"]}-h">{esc(d["name"])}<small>{esc(d["en"])} · {len(d["works"])} 项</small></h3>',
-            f'<p class="q">{esc(d["question"])}</p>',
-            '</div>',
-            '<div class="dir-body">',
-            f'<p class="problem">{esc(d["problem"])}</p>',
-            ideas_block,
-            f'<div class="advice"><span class="label">工程建议</span>{esc(d["advice"])}</div>',
-            '</div>',
-        ]
-        for g, ws in groups.items():
-            body.append(f'<div class="group"><h4 class="group-title">{esc(g)}</h4><ol class="works">')
-            body.extend(work_html(w, d) for w in ws)
-            body.append('</ol></div>')
-        body.append('</article>')
-        parts.append("\n".join(body))
+def section_html(m, s, figs):
+    n = sum(1 for _ in works_of(s))
+    parts = [
+        f'<section class="subsec" id="s-{s["id"]}" aria-labelledby="s-{s["id"]}-h">',
+        f'<header class="sub-head"><svg class="sub-ic" aria-hidden="true"><use href="#ic-{s["icon"]}"/></svg>'
+        f'<div><h4 id="s-{s["id"]}-h">{esc(s["name"])}</h4><p>{esc(s["tagline"])}</p></div>'
+        f'<span class="sub-count">{n} 篇</span></header>',
+    ]
+    if s["note"]:
+        parts.append(f'<p class="sub-note">{esc(s["note"])}</p>')
+    for heading, ws in s["groups"]:
+        if heading:
+            parts.append(f'<p class="group-title">{esc(heading)}</p>')
+        parts.append('<div class="cards">' + "".join(card(m, s, w, figs) for w in ws) + "</div>")
+    if s["extra"]:
+        label = "延伸阅读" if s["groups"] else "论文列表"
+        parts.append(
+            f'<details class="more"><summary><span>{label}</span><span class="more-n">{len(s["extra"])} 篇</span>'
+            f'<span class="more-hint">点开查看</span></summary>'
+            '<div class="cards">' + "".join(card(m, s, w, figs) for w in s["extra"]) + "</div></details>"
+        )
+    parts.append("</section>")
     return "\n".join(parts)
 
 
-def chips_html():
-    total = sum(len(d["works"]) for d in D.DIRECTIONS)
-    out = [f'<button type="button" data-dir="all" aria-pressed="true">全部<span class="n">{total}</span></button>']
-    for d in D.DIRECTIONS:
-        out.append(f'<button type="button" data-dir="{d["id"]}" aria-pressed="false">{esc(d["name"])}<span class="n">{len(d["works"])}</span></button>')
+def modules_html(figs):
+    out = []
+    for m in ALL:
+        intro = ""
+        if m.get("problem"):
+            ideas = "".join(f'<li><b>{esc(t)}</b>{esc(x)}</li>' for t, x in m["ideas"])
+            intro = (
+                '<div class="mod-intro">'
+                f'<p class="problem">{esc(m["problem"])}</p>'
+                f'<div><h4 class="mini-h">主流思路</h4><ul class="ideas">{ideas}</ul></div>'
+                f'<div class="advice"><span class="label">工程建议</span>{esc(m["advice"])}</div>'
+                '</div>'
+            )
+        n = sum(1 for s in m["sections"] for _ in works_of(s))
+        out.append(
+            f'<article class="module m-{m["color"]}" id="m-{m["id"]}" data-mod="{m["id"]}" aria-labelledby="m-{m["id"]}-h">'
+            f'<header class="mod-head"><span class="mod-no">{esc(m["no"])}</span>'
+            f'<h3 id="m-{m["id"]}-h">{esc(m["name"])}<small>{esc(m["sub"])} · {n} 篇</small></h3>'
+            f'<p class="q">{esc(m["question"])}</p>'
+            f'<a class="mod-back" href="#overview">回到总览</a></header>'
+            f'{intro}'
+            + "\n".join(section_html(m, s, figs) for s in m["sections"])
+            + "</article>"
+        )
     return "\n".join(out)
 
 
-def dir_by_id():
-    return {d["id"]: d for d in D.DIRECTIONS}
+def chips_html():
+    total = sum(1 for _ in every_work())
+    out = [f'<button type="button" data-mod="all" aria-pressed="true">全部<span class="n">{total}</span></button>']
+    for m in ALL:
+        n = sum(1 for s in m["sections"] for _ in works_of(s))
+        out.append(f'<button type="button" data-mod="{m["id"]}" aria-pressed="false">{esc(m["name"])}<span class="n">{n}</span></button>')
+    return "\n".join(out)
+
+
+def hub_html():
+    by_id = {m["id"]: m for m in D.MODULES}
+    names = {m["id"]: m["name"] for m in ALL}
+    mods = []
+    for m in D.MODULES:
+        ids = {w["name"]: w["_id"] for s in m["sections"] for w in works_of(s)}
+        secs = []
+        for s in m["sections"]:
+            if not s["hub"]:
+                continue
+            papers = "".join(f'<a href="#{ids[h]}">{esc(h)}</a>' for h in s["hub"])
+            secs.append(
+                f'<div class="hub-sec"><a class="hub-sec-link" href="#s-{s["id"]}">'
+                f'<svg class="hub-ic" aria-hidden="true"><use href="#ic-{s["icon"]}"/></svg>'
+                f'<span><b>{esc(s["name"])}</b><small>{esc(s["tagline"])}</small></span></a>'
+                f'<p class="hub-papers">{papers}</p></div>'
+            )
+        extras = [s for s in m["sections"] if not s["hub"]]
+        more = "".join(f'<a class="hub-more" href="#s-{s["id"]}">延伸：{esc(s["name"])}</a>' for s in extras)
+        rels = []
+        for a, b, label in D.RELATIONS:
+            if a == m["id"]:
+                rels.append(f'<span>→ <a href="#m-{b}">{esc(names[b])}</a>（{esc(label)}）</span>')
+            elif b == m["id"] and a in by_id:
+                rels.append(f'<span>← <a href="#m-{a}">{esc(names[a])}</a>（{esc(label)}）</span>')
+        n = sum(1 for s in m["sections"] for _ in works_of(s))
+        mods.append(
+            f'<div class="hub-mod m-{m["color"]}" style="grid-area:{AREA[m["id"]]}">'
+            f'<a class="hub-title" href="#m-{m["id"]}"><span class="hub-no">{D.MODULES.index(m) + 1}</span>'
+            f'<span class="hub-name">{esc(m["name"])}</span><small>{esc(m["sub"])} · {n} 篇</small></a>'
+            + "".join(secs) + more
+            + f'<p class="hub-rels">{"".join(rels)}</p></div>'
+        )
+    rel_cells = []
+    for a, b, label in D.RELATIONS:
+        area, kind = REL_AREA[(a, b)]
+        ca, cb = by_id[a]["color"], by_id[b]["color"]
+        if kind == "diag":
+            arrow = ('<svg class="rel-diag" viewBox="0 0 76 56" aria-hidden="true"><path d="M8 50 L66 8" '
+                     'stroke-dasharray="5 4"/><path d="M56 8 H66 V18" /></svg>')
+        else:
+            arrow = '<span class="rel-line"></span>'
+        rel_cells.append(
+            f'<div class="rel rel-{kind}" style="grid-area:{area};--from:var(--c-{ca});--to:var(--c-{cb})" '
+            f'title="{esc(names[a])} → {esc(names[b])}">{arrow}<span class="rel-label">{esc(label)}</span></div>'
+        )
+    return '<div class="hub" role="navigation" aria-label="研究方向总览">' + "".join(mods) + "".join(rel_cells) + "</div>"
 
 
 def timeline_html():
-    dirs = dir_by_id()
+    names = {m["id"]: m["name"] for m in ALL}
     out = []
     for year, items in D.TIMELINE:
         lis = []
         for it in items:
-            chip = ""
-            if it["dir"] in dirs:
-                chip = f' <a class="chip" href="#dir-{it["dir"]}">{esc(dirs[it["dir"]]["name"])}</a>'
-            elif it["dir"] == "base":
+            if it["mod"] in names:
+                chip = f' <a class="chip" href="#m-{it["mod"]}">{esc(names[it["mod"]])}</a>'
+            else:
                 chip = ' <a class="chip" href="#pipeline">基础</a>'
             link = f' {ext_link("https://arxiv.org/abs/" + it["arxiv"], "arXiv")}' if it.get("arxiv") else ""
             star = " star" if it.get("star") else ""
@@ -180,51 +298,6 @@ def timeline_html():
             )
         out.append(f'<div class="tl-year"><h3>{esc(year)}</h3><ol class="tl-list">{"".join(lis)}</ol></div>')
     return "\n".join(out)
-
-
-def map_html():
-    dirs = dir_by_id()
-
-    def link(i):
-        d = dirs[i]
-        return f'<a class="dir-link" href="#dir-{i}">{esc(d["name"])} <small>{len(d["works"])}</small></a>'
-
-    stages = [
-        ("1", "拍摄与位姿", "照片或视频 → 相机位姿与稀疏点（COLMAP，或前馈模型）", [link("speed")]),
-        ("2", "优化训练", "可微渲染 + 自适应增删，得到数百万个高斯", [link("speed")]),
-        ("3", "压缩与传输", "减点、量化、熵编码、LoD，变成能下载的文件", [link("compress")]),
-        ("4", "渲染与部署", "网页、引擎、XR 里实时显示，与网格共存", [link("geometry")]),
-    ]
-    flow = "".join(
-        f'<div class="node"><span class="node-no">{no}</span><h4>{esc(t)}</h4><p>{esc(p)}</p><div class="chips">{"".join(ls)}</div></div>'
-        for no, t, p, ls in stages
-    )
-    bars = [
-        ("画质主线", "抗锯齿、去模糊、外观变化、稀疏视角：贯穿训练与渲染", link("quality")),
-        ("几何主线", "表面、网格、光线追踪：让高斯能碰撞、能投影、能与网格混合", link("geometry")),
-    ]
-    bar_rows = "".join(
-        f'<div class="span-row"><span class="span-note">贯穿第 2–4 步</span><div class="bar"><h4>{esc(t)}</h4><p>{esc(p)}</p>{l}</div></div>'
-        for t, p, l in bars
-    )
-    ext = [
-        ("编辑与交互", "选中物体、删除替换、文字编辑、物理仿真", link("edit")),
-        ("重光照与材质", "拆出几何、材质和光照，换个光照也能看", link("relight")),
-        ("动态与更多应用", "4D 场景、数字人、SLAM、自动驾驶、3D 生成", link("ext")),
-    ]
-    ext_nodes = "".join(
-        f'<div class="node"><h4>{esc(t)}</h4><p>{esc(p)}</p><div class="chips">{l}</div></div>' for t, p, l in ext
-    )
-    return (
-        '<div class="map">'
-        '<span class="map-row-label">主流程</span>'
-        f'<div class="flow">{flow}</div>'
-        '<span class="map-row-label" style="margin-top:10px">两条支撑主线</span>'
-        f'{bar_rows}'
-        '<span class="map-row-label" style="margin-top:10px">可选扩展</span>'
-        f'<div class="ext-row">{ext_nodes}</div>'
-        '</div>'
-    )
 
 
 def ecosystem_html():
@@ -259,44 +332,49 @@ def errata_html():
 # -------------------------------------------------------------------- main
 
 def main():
-    validate()
-    total = sum(len(d["works"]) for d in D.DIRECTIONS)
-    stars = sum(1 for d in D.DIRECTIONS for w in d["works"] if w["star"])
+    prepare()
+    figs = figures()
+    works = list(every_work())
+    total = len(works)
+    core = sum(1 for m in ALL for s in m["sections"] for _, ws in s["groups"] for _ in ws)
+    stars = sum(1 for _, _, w in works if w["star"])
+    missing = [w["name"] for _, _, w in works if not (w["img"] or (figs.get(w["arxiv"] or w["name"]) or {}).get("src"))]
     js = "\n".join((SRC / f).read_text(encoding="utf-8") for f in ("splat2d.js", "scenes.js", "app.js"))
     if "</script" in js.lower():
         raise SystemExit("inline JS must not contain </script")
     page = (SRC / "template.html").read_text(encoding="utf-8")
     fills = {
-        "STYLE": (SRC / "style.css").read_text(encoding="utf-8"),
-        "SCRIPT": js,
-        "TIMELINE": timeline_html(),
-        "MAP": map_html(),
+        "ICONS": (SRC / "icons.svg").read_text(encoding="utf-8"),
+        "HUB": hub_html(),
+        "MODULES": modules_html(figs),
         "CHIPS": chips_html(),
-        "DIRECTIONS": directions_html(),
+        "TIMELINE": timeline_html(),
         "ECOSYSTEM": ecosystem_html(),
         "CAVEATS": caveats_html(),
         "GLOSSARY": glossary_html(),
         "ERRATA": errata_html(),
         "CELLS": cells(),
         "TOTAL": str(total),
+        "CORE": str(core),
         "STARS": str(stars),
         "UPDATED": D.UPDATED,
+        "STYLE": (SRC / "style.css").read_text(encoding="utf-8"),
+        "SCRIPT": js,
     }
-    # STYLE and SCRIPT go last so their contents are never scanned for markers.
-    for key in [k for k in fills if k not in ("STYLE", "SCRIPT")] + ["STYLE", "SCRIPT"]:
+    for key, value in fills.items():   # STYLE and SCRIPT last: their text is never scanned for markers
         marker = f"@@{key}@@"
         if marker not in page:
             raise SystemExit(f"template is missing {marker}")
-        page = page.replace(marker, fills[key])
-    leftover = re.findall(r"@@[A-Z]+@@", page)
-    if leftover:
-        raise SystemExit(f"unfilled markers: {leftover}")
+        page = page.replace(marker, value)
     out = ROOT / "index.html"
     out.write_text(page, encoding="utf-8", newline="\n")
-    per_dir = ", ".join(f"{d['name']} {len(d['works'])}" for d in D.DIRECTIONS)
     print(f"wrote {out.relative_to(ROOT)}: {len(page.encode('utf-8')) / 1024:.0f} KB, "
-          f"{total} works ({stars} milestones) — {per_dir}")
+          f"{total} works ({core} representative, {stars} milestones), {total - len(missing)} with teaser images")
+    if missing:
+        print("  no image yet (drawn card is shown): " + ", ".join(missing))
 
 
 if __name__ == "__main__":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     main()
