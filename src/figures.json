@@ -826,7 +826,7 @@
   "caption": "Figure 1 : TRON Architecture During training, we (1) apply an intrinsic decomposition model on all input view to get G-buffers and then (2) reconstruct a multiv"
  },
  "3DGRUT": {
-  "src": "https://raw.githubusercontent.com/nv-tlabs/3dgrut/main/assets/playground_menu.png",
+  "src": "https://raw.githubusercontent.com/nv-tlabs/3dgrut/main/assets/render_lego.jpg",
   "from": "og",
   "n": 1,
   "caption": "",
