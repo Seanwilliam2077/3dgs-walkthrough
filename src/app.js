@@ -197,7 +197,7 @@
     if (!canvas || !S) return;
     var ctx = canvas.getContext('2d');
     var W = 240, H = 80, MAX = 1500;
-    var BG = hexRgb('#0b1115');
+    var BG = hexRgb('#14110b');
     var showEllipses = false, trainer, cache = {}, visible = true, raf = 0;
 
     function makeTarget() {
@@ -207,10 +207,10 @@
       x.fillStyle = rgbCss(BG);
       x.fillRect(0, 0, W, H);
       var grad = x.createLinearGradient(44, 0, 196, 0);
-      grad.addColorStop(0, '#3cc8c1');
-      grad.addColorStop(0.36, '#5f9cff');
-      grad.addColorStop(0.68, '#ffc35c');
-      grad.addColorStop(1, '#ff7449');
+      grad.addColorStop(0, '#4fc0ae');
+      grad.addColorStop(0.36, '#7fa3d8');
+      grad.addColorStop(0.68, '#e3b45f');
+      grad.addColorStop(1, '#dd7a4c');
       x.fillStyle = grad;
       x.font = '800 66px ' + cssVar('--font-sans');
       x.textAlign = 'center';
@@ -538,11 +538,11 @@
       var c = document.createElement('canvas');
       c.width = TW; c.height = TH;
       var x = c.getContext('2d');
-      x.fillStyle = '#eef1ee'; x.fillRect(0, 0, TW, TH);
+      x.fillStyle = '#f2efe8'; x.fillRect(0, 0, TW, TH);
       x.textAlign = 'center'; x.textBaseline = 'middle';
       x.font = '800 36px ' + cssVar('--font-sans');
-      x.fillStyle = '#123c40'; x.fillText('高斯', TW / 2, 27);
-      x.fillStyle = '#d8572a'; x.fillText('泼溅', TW / 2, 66);
+      x.fillStyle = '#3b3220'; x.fillText('高斯', TW / 2, 27);
+      x.fillStyle = '#b06a3a'; x.fillText('泼溅', TW / 2, 66);
       return readCanvas(c);
     }
     function readCanvas(c) {
@@ -582,7 +582,7 @@
         paintEllipses(ctx, tr.model, cv.width / TW, stageBg, true);
       } else if (view === 'error') {
         var f = tr.frame, e = errCache.buf || (errCache.buf = new Float32Array(TW * TH * 3));
-        var hot = hexRgb('#ff8a4c'), base = hexRgb(stageBg);
+        var hot = hexRgb('#e8944f'), base = hexRgb(stageBg);
         for (var i = 0, j = 0; i < TW * TH; i++, j += 3) {
           var d = (Math.abs(f.color[j] - target[j]) + Math.abs(f.color[j + 1] - target[j + 1]) + Math.abs(f.color[j + 2] - target[j + 2])) / 3;
           var t = Math.min(1, d * 5);
