@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>@@TITLE@@</title>
+<meta name="description" content="@@DESC@@">
+<meta property="og:title" content="@@TITLE@@">
+<meta property="og:description" content="@@DESC@@">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='12' cy='14' rx='9' ry='6' transform='rotate(-25 12 14)' fill='%23b68235' fill-opacity='.9'/%3E%3Cellipse cx='19' cy='17' rx='8' ry='5' transform='rotate(35 19 17)' fill='%23a6543a' fill-opacity='.8'/%3E%3Cellipse cx='16' cy='22' rx='7' ry='4' fill='%23d0a75a' fill-opacity='.8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&amp;display=swap">
+<script>
+  try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  // Teaser images fade in once loaded; if they never load, the drawn card underneath stays.
+  document.addEventListener('load', function (e) { var t = e.target; if (t.tagName === 'IMG' && t.parentNode && t.parentNode.classList.contains('thumb')) t.classList.add('ok'); }, true);
+  document.addEventListener('error', function (e) {
+    var t = e.target;
+    if (t.tagName !== 'IMG' || !t.parentNode || !t.parentNode.classList.contains('thumb')) return;
+    var n = +(t.getAttribute('data-try') || 0);
+    t.setAttribute('data-try', n + 1);
+    if (n === 0) setTimeout(function () { t.src = t.src + '&retry=1'; }, 1200 + Math.random() * 2400);
+    else if (n === 1 && t.getAttribute('data-orig')) t.src = t.getAttribute('data-orig');
+    else t.classList.add('bad');
+  }, true);
+</script>
+<style>
+@@STYLE@@
+</style>
+</head>
+<body>
+@@ICONS@@
+<a class="skip" href="#main">跳到正文</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="@@HOME@@" aria-label="3DGS 漫游指南，回到首页">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="12" cy="14" rx="9" ry="6" transform="rotate(-25 12 14)" fill="var(--accent)" fill-opacity=".85"/><ellipse cx="19" cy="17" rx="8" ry="5" transform="rotate(35 19 17)" fill="var(--cat-2)" fill-opacity=".8"/><ellipse cx="16" cy="22" rx="7" ry="4" fill="var(--cat-4)" fill-opacity=".75"/></svg>
+      <span>3DGS 漫游指南</span>
+    </a>
+@@NAV@@
+    <button id="theme-toggle" class="theme" type="button">
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
+      <span class="label">跟随系统</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+@@BODY@@
+
+</main>
+
+<a class="to-top" id="to-top" href="@@TOTOP@@" hidden>
+  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  @@TOTOP_LABEL@@
+</a>
+
+<footer>
+  <div class="wrap">
+    <span>3DGS 漫游指南 · 更新于 @@UPDATED@@</span>
+    <span>单个 HTML 文件；论文配图从原站加载 · 内容与生成脚本见 <a href="https://github.com/Seanwilliam2077/3dgs-walkthrough" target="_blank" rel="noopener">GitHub</a></span>
+  </div>
+</footer>
+
+<script>
+@@SCRIPT@@
+</script>
+</body>
+</html>

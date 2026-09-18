@@ -1,0 +1,68 @@
+<section id="ecosystem">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">落地</p>
+      <h2>工程生态与许可</h2>
+      <p class="lede">「值得精读」和「值得当底座」要分开判断。下表的许可信息核对于 @@UPDATED@@，以各仓库当前的 LICENSE 为准。</p>
+    </div>
+    <div class="table-scroll">
+      <table class="eco">
+        <thead><tr><th scope="col">用途</th><th scope="col">项目</th><th scope="col">做什么</th><th scope="col">许可</th></tr></thead>
+        <tbody>
+@@ECOSYSTEM@@
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>商用前先查许可。</strong>原版 3DGS 的代码是 Inria 的非商用许可，而很多下游仓库直接把 Inria 系的光栅器（diff-gaussian-rasterization 及其变体）当作子模块，许可会跟着带过去。想做产品，底座优先选 gsplat、3DGRUT 这类 Apache-2.0 / MIT 的实现。
+    </div>
+  </div>
+</section>
+
+<section id="caveats">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">口径</p>
+      <h2>读数字时要当心</h2>
+      <p class="lede">论文之间的数字经常不能直接比较。看到「快 10 倍」「小 100 倍」时，先问下面几个问题。</p>
+    </div>
+    <div class="caveats">
+@@CAVEATS@@
+    </div>
+  </div>
+</section>
+
+<section id="glossary">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">附录</p>
+      <h2>术语表</h2>
+    </div>
+    <dl class="glossary">
+@@GLOSSARY@@
+    </dl>
+  </div>
+</section>
+
+<section id="errata">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">附录</p>
+      <h2>参考与勘误</h2>
+      <p class="lede">本页以一份「3DGS 研究进展综述（截至 2026 年中）」和两张研究方向总览图为骨架，逐条核对后补充而成。区分三类信息：可复现的论文结果、作者或厂商的自述、第三方报道，后两类在文中都有标注。</p>
+    </div>
+    <h3 style="margin-bottom:10px">对原综述的更正与更新</h3>
+    <ul class="errata">
+@@ERRATA@@
+    </ul>
+    <h3 style="margin:36px 0 10px">怎么核对的</h3>
+    <ol class="refs">
+      <li>arXiv 编号、标题和首版日期：逐条对照 arxiv.org 的论文页面。</li>
+      <li>会议信息：对照 CVF Open Access（CVPR 2024/2025/2026、ICCV 2025）、ECVA（ECCV 2024）的收录列表，以及论文页的 Comments 字段和官方代码仓库的说明。</li>
+      <li>许可证与项目状态：对照 GitHub 仓库的 LICENSE、README，以及 Khronos 官方 glTF 仓库。</li>
+      <li>原论文数字：3DGS 论文 Table 1 与正文（<a href="https://arxiv.org/abs/2308.04079" target="_blank" rel="noopener">arXiv:2308.04079</a>，<a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/" target="_blank" rel="noopener">项目页</a>）。</li>
+      <li>卡片配图：取自 arXiv HTML 版论文的第一张图（多为 teaser），或项目页的封面图，直接从原站加载，版权归原作者；本仓库不保存这些图片。</li>
+    </ol>
+    <p class="footnote">信息核对截至 @@UPDATED@@。领域变化很快，引用前请以论文和仓库的最新版本为准。</p>
+  </div>
+</section>

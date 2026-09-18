@@ -81,6 +81,7 @@
   // Renders a trained model at display resolution. Training stays on the CPU;
   // this only draws. Falls back to upscaling the CPU frame when WebGL2 is missing.
   var GL = (function () {
+    if (!S) return null;                       // pages without the trainer (everything but the home page)
     var canvas = document.createElement('canvas');
     var gl = null;
     try { gl = canvas.getContext('webgl2', { alpha: false, antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: true }); } catch (e) { gl = null; }
@@ -904,7 +905,7 @@
 
   /* ------------------------------------------------ back to the overview */
   (function toTop() {
-    var btn = $('to-top'), hub = $('overview');
+    var btn = $('to-top'), hub = $('overview') || document.querySelector('.mod-head, .sec-head');
     if (!btn || !hub) return;
     function set(show) { btn.hidden = !show; }
     if (typeof window.IntersectionObserver === 'function') {
@@ -918,7 +919,7 @@
   (function navSpy() {
     if (typeof window.IntersectionObserver !== 'function') return;
     var links = {};
-    [].forEach.call(document.querySelectorAll('.toc a'), function (a) { links[a.getAttribute('href').slice(1)] = a; });
+    [].forEach.call(document.querySelectorAll('.toc a[href^="#"]'), function (a) { links[a.getAttribute('href').slice(1)] = a; });
     var current = null;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {

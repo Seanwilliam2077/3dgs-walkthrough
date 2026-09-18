@@ -1,72 +1,9 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>3DGS 漫游指南</title>
-<meta name="description" content="3D Gaussian Splatting 通俗导读：一张可点击的研究方向总览图，三个可以动手的原理小实验，以及六大模块 @@TOTAL@@ 篇论文的配图卡片。">
-<meta property="og:title" content="3DGS 漫游指南">
-<meta property="og:description" content="3D Gaussian Splatting 通俗导读：研究方向总览、原理小实验、六大模块 @@TOTAL@@ 篇论文。">
-<meta name="color-scheme" content="light dark">
-<meta name="referrer" content="no-referrer">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='12' cy='14' rx='9' ry='6' transform='rotate(-25 12 14)' fill='%23b68235' fill-opacity='.9'/%3E%3Cellipse cx='19' cy='17' rx='8' ry='5' transform='rotate(35 19 17)' fill='%23a6543a' fill-opacity='.8'/%3E%3Cellipse cx='16' cy='22' rx='7' ry='4' fill='%23d0a75a' fill-opacity='.8'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&amp;display=swap">
-<script>
-  try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
-  // Teaser images fade in once loaded; if they never load, the drawn card underneath stays.
-  document.addEventListener('load', function (e) { var t = e.target; if (t.tagName === 'IMG' && t.parentNode && t.parentNode.classList.contains('thumb')) t.classList.add('ok'); }, true);
-  document.addEventListener('error', function (e) {
-    var t = e.target;
-    if (t.tagName !== 'IMG' || !t.parentNode || !t.parentNode.classList.contains('thumb')) return;
-    var n = +(t.getAttribute('data-try') || 0);
-    t.setAttribute('data-try', n + 1);
-    if (n === 0) setTimeout(function () { t.src = t.src + '&retry=1'; }, 1200 + Math.random() * 2400);
-    else if (n === 1 && t.getAttribute('data-orig')) t.src = t.getAttribute('data-orig');
-    else t.classList.add('bad');
-  }, true);
-</script>
-<style>
-@@STYLE@@
-</style>
-</head>
-<body>
-@@ICONS@@
-<a class="skip" href="#main">跳到正文</a>
-
-<header class="topbar">
-  <div class="wrap">
-    <a class="brand" href="#overview" aria-label="3DGS 漫游指南，回到总览">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="12" cy="14" rx="9" ry="6" transform="rotate(-25 12 14)" fill="var(--accent)" fill-opacity=".85"/><ellipse cx="19" cy="17" rx="8" ry="5" transform="rotate(35 19 17)" fill="var(--cat-2)" fill-opacity=".8"/><ellipse cx="16" cy="22" rx="7" ry="4" fill="var(--cat-4)" fill-opacity=".75"/></svg>
-      <span>3DGS 漫游指南</span>
-    </a>
-    <nav class="toc" aria-label="目录">
-      <a href="#overview">总览</a>
-      <a href="#intuition">直觉</a>
-      <a href="#pipeline">原理</a>
-      <a href="#modules">六大模块</a>
-      <a href="#timeline">时间线</a>
-      <a href="#ecosystem">工程生态</a>
-      <a href="#caveats">读数字</a>
-      <a href="#glossary">术语</a>
-      <a href="#errata">参考与勘误</a>
-    </nav>
-    <button id="theme-toggle" class="theme" type="button">
-      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>
-      <span class="label">跟随系统</span>
-    </button>
-  </div>
-</header>
-
-<main id="main">
-
 <section class="overview" id="overview">
   <div class="wrap">
     <p class="eyebrow">3D Gaussian Splatting · 通俗导读 · 2020–2026</p>
     <h1>3DGS 研究方向与技术关联</h1>
     <p class="overview-sub">重建 × 提速 · 编辑 × LoD · 几何 × 重光照</p>
-    <p class="lede">六个模块覆盖 @@TOTAL@@ 篇论文与工具，其中 @@CORE@@ 篇是各方向的代表作。点模块或子模块跳到对应章节，点论文名直达它的配图卡片；方块之间的箭头标出了技术上的关联。</p>
+    <p class="lede">六个模块覆盖 @@TOTAL@@ 篇论文与工具，其中 @@CORE@@ 篇是各方向的代表作。每个方向都有独立的一页：点模块名进它的专页，点子模块或论文名直达那一节的卡片；方块之间的箭头标出了技术上的关联。</p>
 @@HUB@@
     <div class="hub-foot">
       <span class="hub-foot-label">先打基础</span>
@@ -74,7 +11,7 @@
       <a href="#pipeline">原理四步 · 三个小实验</a>
       <a href="#timeline">2020–2026 时间线</a>
       <span class="hub-foot-label">再看落地</span>
-      <a href="#m-apps">更多应用</a>
+      <a href="apps.html">更多应用</a>
       <a href="#ecosystem">工程生态与许可</a>
       <a href="#caveats">读数字的口径</a>
       <a href="#glossary">术语表</a>
@@ -297,31 +234,6 @@
   </div>
 </section>
 
-<section id="modules">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">六大模块</p>
-      <h2>方向、代表作与延伸阅读</h2>
-      <p class="lede">顺序与开头的总览图一致。每个模块先说清要解决的问题，再按子模块排出代表作（两张总览图里列出的论文），其余论文收在「延伸阅读」里。卡片上的图来自论文或项目页，加载不到时显示示意图；★ 表示里程碑。</p>
-    </div>
-    <div class="filters" role="search">
-      <div class="filter-row">
-        <label class="search">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input id="q" type="search" placeholder="搜索名称、会议或关键词，如 TOG、前馈、网格" aria-label="搜索论文" autocomplete="off">
-        </label>
-        <label class="switch"><input type="checkbox" id="only-star"> 只看里程碑 ★</label>
-        <span class="count" id="count" aria-live="polite"></span>
-      </div>
-      <div class="dir-chips" role="group" aria-label="按模块筛选">
-@@CHIPS@@
-      </div>
-    </div>
-@@MODULES@@
-    <p class="empty" id="empty" hidden>没有匹配的论文。换个关键词，或关掉「只看里程碑」。</p>
-  </div>
-</section>
-
 <section id="timeline">
   <div class="wrap">
     <div class="sec-head">
@@ -335,91 +247,14 @@
   </div>
 </section>
 
-<section id="ecosystem">
+<section id="directions">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">落地</p>
-      <h2>工程生态与许可</h2>
-      <p class="lede">「值得精读」和「值得当底座」要分开判断。下表的许可信息核对于 @@UPDATED@@，以各仓库当前的 LICENSE 为准。</p>
+      <p class="eyebrow">分方向查阅</p>
+      <h2>六个方向，各有一页</h2>
+      <p class="lede">每一页都有这个方向的问题、主流思路和工程建议，下面是可以搜索、按子方向筛选的论文卡片。</p>
     </div>
-    <div class="table-scroll">
-      <table class="eco">
-        <thead><tr><th scope="col">用途</th><th scope="col">项目</th><th scope="col">做什么</th><th scope="col">许可</th></tr></thead>
-        <tbody>
-@@ECOSYSTEM@@
-        </tbody>
-      </table>
-    </div>
-    <div class="callout">
-      <strong>商用前先查许可。</strong>原版 3DGS 的代码是 Inria 的非商用许可，而很多下游仓库直接把 Inria 系的光栅器（diff-gaussian-rasterization 及其变体）当作子模块，许可会跟着带过去。想做产品，底座优先选 gsplat、3DGRUT 这类 Apache-2.0 / MIT 的实现。
-    </div>
+@@DIRLIST@@
+    <p class="footnote">想查许可、术语或数字的口径，去<a href="refs.html">资料页</a>。</p>
   </div>
 </section>
-
-<section id="caveats">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">口径</p>
-      <h2>读数字时要当心</h2>
-      <p class="lede">论文之间的数字经常不能直接比较。看到「快 10 倍」「小 100 倍」时，先问下面几个问题。</p>
-    </div>
-    <div class="caveats">
-@@CAVEATS@@
-    </div>
-  </div>
-</section>
-
-<section id="glossary">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">附录</p>
-      <h2>术语表</h2>
-    </div>
-    <dl class="glossary">
-@@GLOSSARY@@
-    </dl>
-  </div>
-</section>
-
-<section id="errata">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">附录</p>
-      <h2>参考与勘误</h2>
-      <p class="lede">本页以一份「3DGS 研究进展综述（截至 2026 年中）」和两张研究方向总览图为骨架，逐条核对后补充而成。区分三类信息：可复现的论文结果、作者或厂商的自述、第三方报道，后两类在文中都有标注。</p>
-    </div>
-    <h3 style="margin-bottom:10px">对原综述的更正与更新</h3>
-    <ul class="errata">
-@@ERRATA@@
-    </ul>
-    <h3 style="margin:36px 0 10px">怎么核对的</h3>
-    <ol class="refs">
-      <li>arXiv 编号、标题和首版日期：逐条对照 arxiv.org 的论文页面。</li>
-      <li>会议信息：对照 CVF Open Access（CVPR 2024/2025/2026、ICCV 2025）、ECVA（ECCV 2024）的收录列表，以及论文页的 Comments 字段和官方代码仓库的说明。</li>
-      <li>许可证与项目状态：对照 GitHub 仓库的 LICENSE、README，以及 Khronos 官方 glTF 仓库。</li>
-      <li>原论文数字：3DGS 论文 Table 1 与正文（<a href="https://arxiv.org/abs/2308.04079" target="_blank" rel="noopener">arXiv:2308.04079</a>，<a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/" target="_blank" rel="noopener">项目页</a>）。</li>
-      <li>卡片配图：取自 arXiv HTML 版论文的第一张图（多为 teaser），或项目页的封面图，直接从原站加载，版权归原作者；本仓库不保存这些图片。</li>
-    </ol>
-    <p class="footnote">信息核对截至 @@UPDATED@@。领域变化很快，引用前请以论文和仓库的最新版本为准。</p>
-  </div>
-</section>
-
-</main>
-
-<a class="to-top" id="to-top" href="#overview" hidden>
-  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  回到总览
-</a>
-
-<footer>
-  <div class="wrap">
-    <span>3DGS 漫游指南 · 更新于 @@UPDATED@@</span>
-    <span>单个 HTML 文件；论文配图从原站加载 · 内容与生成脚本见 <a href="https://github.com/Seanwilliam2077/3dgs-walkthrough" target="_blank" rel="noopener">GitHub</a></span>
-  </div>
-</footer>
-
-<script>
-@@SCRIPT@@
-</script>
-</body>
-</html>
