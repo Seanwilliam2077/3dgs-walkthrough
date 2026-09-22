@@ -440,6 +440,11 @@
   "n": 1,
   "caption": "Figure 1 : Novel-view renderings of our predicted Gaussians from object captures (top left), text-conditioned generated object images (top right), scene capture"
  },
+ "2405.10314": {
+  "src": "https://cat3d.github.io/img/rep_img.jpeg",
+  "from": "og",
+  "pin": true
+ },
  "2405.20721": {
   "src": "https://arxiv.org/html/2405.20721v1/intro.png",
   "from": "arxiv-html",
@@ -538,6 +543,18 @@
   "n": 1,
   "caption": "Figure 2 : Method overview. We encode the two uncalibrated images using MASt3R’s pretrained ViT encoder and cross-attention transformers, which we freeze during"
  },
+ "2408.16767": {
+  "src": "https://arxiv.org/html/2408.16767v4/fig_teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1: An overview of our ReconX framework for sparse-view reconstruction. Unleashing the strong generative prior of video diffusion models, we can create more"
+ },
+ "2409.02048": {
+  "src": "https://arxiv.org/html/2409.02048v1/pipeline1.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1: Overview of our ViewCrafter. Given a single reference image or sparse image sets, we first build its point cloud representation using a dense stereo mod"
+ },
  "2409.06765": {
   "src": "https://repository-images.githubusercontent.com/683223775/8692bf1c-2f61-4d5a-b548-f68e71449d68",
   "from": "og",
@@ -580,6 +597,11 @@
   "n": 1,
   "caption": "Figure 2 : DepthSplat connects depth estimation and 3D Gaussian splatting with a shared architecture, which enables cross-task transfer. In particular, DepthSpl"
  },
+ "2410.16266": {
+  "src": "https://arxiv.org/html/2410.16266v1/main.png",
+  "from": "arxiv-html",
+  "pin": true
+ },
  "2410.18931": {
   "src": "https://arxiv.org/html/2410.18931v2/demo.png",
   "from": "arxiv-html",
@@ -591,6 +613,18 @@
   "from": "arxiv-html",
   "n": 1,
   "caption": "Figure 2: Comparison with pose-required sparse-view 3D Gaussian splatting pipeline. Previous methods first generate Gaussians in each local camera coordinate sy"
+ },
+ "2411.04924": {
+  "src": "https://arxiv.org/html/2411.04924v1/fig_teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Examples of our MVSplat360 . Given sparse and wide-baseline observations of diverse in-the-wild scenes, MVSplat360 can directly render 360° novel view"
+ },
+ "2411.06390": {
+  "src": "https://arxiv.org/html/2411.06390v3/Figure1_cathedral_zoomin.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: We investigate the out-of-distribution (OOD) novel view synthesis (NVS), where test views significantly differ from input views. This scenario contras"
  },
  "2411.12788": {
   "src": "https://arxiv.org/html/2411.12788v2/teaser.png",
@@ -672,6 +706,12 @@
   "n": 1,
   "caption": "Figure 2: Comparison of gradient computation pipelines. The left side illustrates a conventional approach where per-pixel gradients are computed, followed by wa"
  },
+ "2503.01774": {
+  "src": "https://arxiv.org/html/2503.01774v1/pipeline_fixer.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2: Difix3D+ pipeline. The overall pipeline of the Difix3D+ model involves the following stages: Step 1 : Given a pretrained 3D representation, we render "
+ },
  "2503.08511": {
   "src": "https://arxiv.org/html/2503.08511v1/figures/fig1.PNG",
   "from": "arxiv-html",
@@ -696,11 +736,22 @@
   "n": 1,
   "caption": "Figure 1 : We propose DashGaussian, a fast 3D Gaussian Splatting (3DGS) optimization method that can be easily plugged into existing 3DGS backbones. DashGaussia"
  },
+ "2503.21219": {
+  "src": "https://arxiv.org/html/2503.21219v2/pipeline.png",
+  "from": "arxiv-html",
+  "pin": true
+ },
  "2504.01358": {
   "src": "https://arxiv.org/html/2504.01358v1/pipeline.png",
   "from": "arxiv-html",
   "n": 1,
   "caption": "Figure 2 : Pipeline : (a) Our method extends standard Gaussian splatting with material intrinsic properties. We first rasterize the Gaussian primitives into G-b"
+ },
+ "2504.01647": {
+  "src": "https://arxiv.org/html/2504.01647v2/00001.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : Flowing from sparse to dense 3D reconstructions. Contrary to previous diffusion and flow matching models that map a standard multivariate Gaussian di"
  },
  "2505.19175": {
   "src": "https://arxiv.org/html/2505.19175v1/images/teaser/teaser_compose_smooth_cropped.png",
@@ -744,11 +795,29 @@
   "n": 1,
   "caption": "Figure 1: An overview of HunyuanWorld 1.0 applications."
  },
+ "2508.09667": {
+  "src": "https://arxiv.org/html/2508.09667v1/teaser7.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: We introduce GSFixer, a framework capable of improving 3DGS in both artifact restoration (top) and 3D reconstruction (bottom) under sparse-view settin"
+ },
+ "2508.14717": {
+  "src": "https://arxiv.org/html/2508.14717v1/pipeline.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : System overview of the proposed GSFix3D framework for novel view repair. Given initial 3D reconstructions in the form of mesh and 3DGS, we render nov"
+ },
  "2509.11275": {
   "src": "https://arxiv.org/html/2509.11275v1/fig_teaser.png",
   "from": "arxiv-html",
   "n": 1,
   "caption": "Figure 1 : Given multi-view images with unconstrained lighting conditions, ROS-GS optimizes its Gaussian Splatting representation and decomposes the geometry, t"
+ },
+ "2509.18759": {
+  "src": "https://arxiv.org/html/2509.18759v1/teaser.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: Schematic diagram of the difference between previous methods and ours. Left: Previous approaches update diffusion priors as pseudo ground truth of ext"
  },
  "2509.25122": {
   "src": "https://trianglesplatting2.github.io/trianglesplatting2/assets/comparisons/garden_ts+.png",
@@ -794,6 +863,12 @@
   "caption": "",
   "pin": true
  },
+ "2601.20857": {
+  "src": "https://arxiv.org/html/2601.20857v1/pipeline_v3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 2 : Method. FreeFix improves the rendering quality of extrapolated views in 3DGS without fine-tuning DMs, as illustrated in the bottom left of the pipeli"
+ },
  "2601.23065": {
   "src": "https://arxiv.org/html/2601.23065v2/figures/jpgs/Teaser.jpg",
   "from": "arxiv-html",
@@ -819,11 +894,35 @@
   "caption": "",
   "pin": true
  },
+ "2604.20155": {
+  "src": "https://arxiv.org/html/2604.20155v2/tesear.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Fig. 1: Overview of GSCompleter. We propose a “Generate-then-Register” paradigm for rapid and robust 3DGS scene completion. (a) Given a 3DGS scene exhibiting ge"
+ },
+ "2605.09688": {
+  "src": "https://arxiv.org/html/2605.09688v1/figures/teaser_new_v5.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1: ConFixGS : a plug-and-play repair of feedforward 3DGS in sparse driving scenes. Left: Our confidence-guided method enhances state-of-the-art feedforwa"
+ },
+ "2605.11424": {
+  "src": "https://arxiv.org/html/2605.11424v1/teaser-v2.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1. We highlight the strength of VidSplat in large-scale scene reconstruction and novel view synthesis using only 5 input views (top), where recent sparse"
+ },
  "2606.11314": {
   "src": "https://arxiv.org/html/2606.11314v1/Images/tron_method_overview_figure.png",
   "from": "arxiv-html",
   "n": 1,
   "caption": "Figure 1 : TRON Architecture During training, we (1) apply an intrinsic decomposition model on all input view to get G-buffers and then (2) reconstruct a multiv"
+ },
+ "2608.23549": {
+  "src": "https://arxiv.org/html/2608.23549v1/teaser_v3.png",
+  "from": "arxiv-html",
+  "n": 1,
+  "caption": "Figure 1 : FixAnything takes a rendering video from any 3D representation — 3DGS, NeRF, mesh, or sparse point cloud — and produces a photorealistic, 3D-consiste"
  },
  "3DGRUT": {
   "src": "https://raw.githubusercontent.com/nv-tlabs/3dgrut/main/assets/render_lego.jpg",

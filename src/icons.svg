@@ -40,6 +40,16 @@
       <rect x="39" y="8" width="22" height="24" rx="2" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.4"/>
       <circle cx="50" cy="20" r="6.5" fill="currentColor" fill-opacity=".75"/>
     </symbol>
+    <symbol id="ic-fix" viewBox="0 0 64 40">
+      <rect x="3" y="8" width="22" height="24" rx="2" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M3 26l6-5 4 3 5-6 7 6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2.5 2"/>
+      <path d="M13 11h7v6h-7z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-dasharray="2 1.6"/>
+      <circle cx="8" cy="15" r="2.2" fill="currentColor" fill-opacity=".3"/><circle cx="21" cy="28" r="1.6" fill="currentColor" fill-opacity=".3"/>
+      <path d="M29 20h7m-3-3.2 3.2 3.2-3.2 3.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="39" y="8" width="22" height="24" rx="2" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M39.7 31.3V26l6-5 4 3 5-6 5.6 5.2v8.1z" fill="currentColor" fill-opacity=".55"/>
+      <path d="M55.5 9.5l1 2.3 2.3 1-2.3 1-1 2.3-1-2.3-2.3-1 2.3-1z" fill="currentColor"/>
+    </symbol>
     <symbol id="ic-select" viewBox="0 0 64 40">
       <ellipse cx="11" cy="25" rx="8" ry="6" fill="currentColor" fill-opacity=".22"/>
       <ellipse cx="31" cy="19" rx="9" ry="7" fill="currentColor" fill-opacity=".7"/>
